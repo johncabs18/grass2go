@@ -1,0 +1,360 @@
+<ion-view cache-view="false" title="{{ title }}">
+    <ion-nav-buttons side="right" style="color:#606468 !important;" >
+        <i class="icon ion-ios-refresh-outline" style="font-size:34px !important;margin-right:4px;" ng-click="initializeList();"></i>
+        <i ng-show="valid" class="icon ion-ios-plus-outline" style="font-size:34px !important;margin-right:4px;" ng-click="add_appointment(date);"></i>
+    </ion-nav-buttons>
+  	<ion-content has-bouncing="true" class="calendar">
+      <div class="card" ng-repeat="event in events track by $index" ng-if="events != 0">
+        <center>
+          <p class="app_sched">Appointment Scheduled</p>
+          <p style="font-size:15px;color:#000;font-weight:bold;">Your appointment is in the book!</p>
+        </center>
+        <div class="row">
+            <div class="col"><img src="img/time.png" style="float:left;margin-left:2px;"width="40" height="40"></div>
+            <div class="col-50">
+              <center>
+                <p style="font-size:20px;color:#2bb873;">{{ title }}</p>
+                <p style="font-size:30px;color:#000;">{{ formatTime(event.appoint_pref_time) }}</p>
+              </center>
+            </div>
+            <div class="col"><img src="img/check.png" style="float:right;margin-right:2px;"width="40" height="40"></div>
+        </div>
+        <div ng-if="event.status != 'declined' &&  event.status != 'unfinish' && valid ">
+          <br>
+          <center>
+            <p style="font-size:15px;color:#2bb873; font-style: italic;">Not the right time? Cancel to reschedule</p>
+            <button class="button button-assertive" ng-click="cancel_appoint(event.appoint_id)">
+              Cancel
+            </button>
+          </center>
+          <br>
+        </div>
+        <div class="row" ng-if="event.status == 'unfinish' && valid ">
+          <div class="col">
+            <button class="button button-energized button-block " ng-click="finishAppoint(event.appoint_id)">
+              Finish Appointment
+            </button>
+          </div>
+        </div>
+        <div ng-if="event.status == 'approved' ">
+          <p style="font-size:15px;color:#31708f ;margin:0 10px 0;background-color:#d9edf7;padding:10px 5px 10px;margin-bottom:10px;border:1px solid;border-radius:4px;border-color: #bce8f1;">
+            Service Information
+          </p>
+          <div class="row">
+            <div class="col-50" >
+              <img src="img/profile.png" width="90%" ng-if="agent_info[$index].agent_img == '' ">
+              <img ng-src="{{ baseURL }}{{ agent_info[$index].agent_img }}" ng-if="agent_info[$index].agent_img != '' " width="90%">
+            </div>
+            <div class="col-50 info">
+              <p style="margin:0 0 0px;font-size:18px">{{  agent_info[$index].agent_fname }} {{ agent_info[$index].agent_lname }}</p>
+              <p style="margin:0 0 0px;font-size:12px;color:#2bb873; font-style: italic;">Service Agent</p>
+              <p style="margin:0 0 0px;font-size:18px">{{ company[$index].company_name }}</p>
+              <p style="margin:0 0 0px;font-size:12px;color:#2bb873; font-style: italic;">Company Name</p>
+              <p style="margin:0 0 0px;font-size:18px">{{ company[$index].certification_number }}</p>
+              <p style="margin:0 0 0px;font-size:12px;color:#2bb873; font-style: italic;">Certification Number</p>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col"><button class="button button-block button-balanced" ng-click="viewInvoice(event.appoint_id)">View Invoice</button></div>
+            <div class="col"><a class="button button-block button-balanced" href="tel:{{company[$index].phone}}" >Call Company</a></div>
+          </div>
+          <!-- <center style="margin:0 10px 0;"> -->
+            <!-- <button class="button button-block button-balanced" >Call Company</button>
+          </center> -->
+        </div>
+        <div class="row" ng-if="event.status == 'pending' ">
+          <div class="col">
+            <p style="font-size:15px;color:#31708f ;background-color:#d9edf7;padding:10px 5px 10px;margin-bottom:10px;border:1px solid;border-radius:4px;border-color: #bce8f1;">
+              Status: <b>Pending !</b><br> 
+              <span style="font-style: italic;font-size:12px !important;"> Wait for the Service Provider's Approval ! </span>
+            </p>
+          </div>
+        </div>
+        <div  class="row" ng-if="event.status == 'declined' ">
+          <div class="col">
+            <p style="font-size:15px;color:#a94442 ;background-color:#F2DEDE;padding:10px 5px 10px;margin-bottom:10px;border:1px solid;border-radius:4px;border-color: #ebccd1;text-align:center;">
+                This booking has been <b>declined</b> !
+            </p>
+          </div>
+        </div>
+        <!-- <div class="card" style="margin-top:-10px;">
+          <div class="item item-divider" style="background-color:#2BB873;color:#fff">
+            Booking Information
+          </div>
+          <div class="row">
+            <div class="col"><p style="font-style:italic" >Customer Name</p></div>
+            <div class="col"><b>{{ event.appoint_fullname }}</b></div>
+          </div>
+          <div class="row">
+            <div class="col"><p style="font-style:italic" >Address</p></div>
+            <div class="col"><b>{{ event.appoint_address }}</b></div>
+          </div>
+          <div class="row">
+            <div class="col"><p style="font-style:italic" >City</p></div>
+            <div class="col"><b>{{ event.appoint_city }}</b></div>
+          </div>
+          <div class="row">
+            <div class="col"><p style="font-style:italic" >State</p></div>
+            <div class="col"><b>{{ event.appoint_state }}</b></div>
+          </div>
+          <div class="row">
+            <div class="col"><p style="font-style:italic" >Zip Code</p></div>
+            <div class="col"><b>{{ event.appoint_zip }}</b></div>
+          </div>
+          <div class="row">
+            <div class="col"><p style="font-style:italic" >Prefer to be Contacted</p></div>
+            <div class="col"><b>via {{ event.appoint_pref_contacted }}</b></div>
+          </div>
+          <div class="row">
+            <div class="col"><p style="font-style:italic" >Phone</p></div>
+            <div class="col"><b>{{ event.appoint_phone }}</b></div>
+          </div>
+          <div class="row">
+            <div class="col"><p style="font-style:italic" >Fax</p></div>
+            <div class="col"><b>{{ event.appoint_fax }}</b></div>
+          </div>
+          <div class="row">
+            <div class="col"><p style="font-style:italic" >Email</p></div>
+            <div class="col"><b>{{ event.appoint_email }}</b></div>
+          </div>
+          <div class="row">
+            <div class="col"><p style="font-style:italic" >Best time to call</p></div>
+            <div class="col"><b>{{ event.appoint_time_call }}</b></div>
+          </div>
+          <div class="row">
+            <div class="col"><p style="font-style:italic" >Yard Size</p></div>
+            <div class="col"><b>{{ event.yard_size }} sq ft</b></div>
+          </div>
+        </div> -->
+      </div> 		
+      <div class="card" ng-if="events == 0">
+  		  <div class="item item-text-wrap">
+  		    No Appointment Scheduled found.
+  		  </div>
+  		</div>
+  	</ion-content>
+</ion-view>
+
+<script id="addEvent.html" type="text/ng-template">
+  <ion-modal-view>
+    <div class="bar bar-header" style="background:#2bb873;">
+      <h1 class="title" style="color:white">Set an Appointment</h1>
+      <button class="button button-icon ion-ios-close-outline" style="color:white" ng-click="closeAddEventModal();"></button>
+    </div>
+    <ion-content class="modalLogin appoint" has-bouncing="true">
+      <form novalidate="novalidate" ng-submit="next(data)" name="data">
+        <div class="list" style="margin:10px;margin-top:20%;">
+          <label class="item item-input">
+            <div class="input-label">
+             Full name <span style="color:red">*</span>
+            </div>
+            <input type="text" placeholder="Tap to add" ng-model="appoint.fullname" required>
+            <i class="icon ion-alert-circled assertive error"></i>
+          </label>
+          <label class="item item-input">
+            <div class="input-label">
+              Address <span style="color:red">*</span>
+            </div>
+            <input type="text" placeholder="Tap to add" ng-model="appoint.address"required>
+            <i class="icon ion-alert-circled assertive error"></i>
+          </label>
+          <label class="item item-input">
+            <div class="input-label">
+              City <span style="color:red">*</span>
+            </div>
+            <input type="text" placeholder="Tap to add" ng-model="appoint.city" required>
+            <i class="icon ion-alert-circled assertive error-appoint"></i>
+          </label>
+          <label class="item item-input item-select">
+            <div class="input-label">
+              State
+            </div>
+            <select ng-model="appoint.state">
+              <option value="Alabama">Alabama</option>
+              <option value="Alaska">Alaska</option>
+              <option value="Arizona">Arizona</option>
+              <option value="Arkansas">Arkansas</option>
+              <option value="California">California</option>
+              <option value="Colorado">Colorado</option>
+              <option value="Connecticut">Connecticut</option>
+              <option value="Delaware">Delaware</option>
+              <option value="District Of Columbia">District Of Columbia</option>
+              <option value="Florida">Florida</option>
+              <option value="Georgia">Georgia</option>
+              <option value="Hawaii">Hawaii</option>
+              <option value="Idaho">Idaho</option>
+              <option value="Illinois">Illinois</option>
+              <option value="Indiana">Indiana</option>
+              <option value="Iowa">Iowa</option>
+              <option value="Kansas">Kansas</option>
+              <option value="Kentucky">Kentucky</option>
+              <option value="Louisiana">Louisiana</option>
+              <option value="Maine">Maine</option>
+              <option value="Maryland">Maryland</option>
+              <option value="Massachusetts">Massachusetts</option>
+              <option value="Michigan">Michigan</option>
+              <option value="Minnesota">Minnesota</option>
+              <option value="Mississippi">Mississippi</option>
+              <option value="Missouri">Missouri</option>
+              <option value="Montana">Montana</option>
+              <option value="Nebraska">Nebraska</option>
+              <option value="Nevada">Nevada</option>
+              <option value="New Hampshire">New Hampshire</option>
+              <option value="New Jersey">New Jersey</option>
+              <option value="New Mexico">New Mexico</option>
+              <option value="New York">New York</option>
+              <option value="North Carolina">North Carolina</option>
+              <option value="North Dakota">North Dakota</option>
+              <option value="Ohio">Ohio</option>
+              <option value="Oklahoma">Oklahoma</option>
+              <option value="Oregon">Oregon</option>
+              <option value="Pennsylvania">Pennsylvania</option>
+              <option value="Puerto Rico">Puerto Rico</option>
+              <option value="Rhode Island">Rhode Island</option>
+              <option value="South Carolina">South Carolina</option>
+              <option value="South Dakota">South Dakota</option>
+              <option value="Tennessee">Tennessee</option>
+              <option value="Texas">Texas</option>
+              <option value="Utah">Utah</option>
+              <option value="Vermont">Vermont</option>
+              <option value="Virgin Islands">Virgin Islands</option>
+              <option value="Virginia">Virginia</option>
+              <option value="Washington">Washington</option>
+              <option value="West Virginia">West Virginia</option>
+              <option value="Wisconsin">Wisconsin</option>
+              <option value="Wyoming">Wyoming</option>
+            </select>
+          </label>
+          <label class="item item-input">
+            <div class="input-label">
+              Zip <span style="color:red">*</span>
+            </div>
+            <input type="text" placeholder="Tap to add" ng-model="appoint.zip" required>
+            <i class="icon ion-alert-circled assertive error-appoint"></i>
+          </label>
+          <label class="item item-input item-select">
+            <div class="input-label">
+              How do you prefer <br>to be contacted? <span style="color:red">*</span>
+            </div>
+            <select  ng-model="appoint.pref_contacted" required>
+              <option value="Phone">Phone</option>
+              <option value="Fax">Fax</option>
+              <option value="Email">Email</option>
+            </select>
+            <i class="icon ion-alert-circled assertive error"></i>
+          </label>
+          <label class="item item-input">
+            <div class="input-label">
+              Phone <span style="color:red">*</span>
+            </div>
+            <input type="tel" placeholder="Tap to add" ng-model="appoint.phone" required>
+            <i class="icon ion-alert-circled assertive error"></i>
+          </label>
+          <label class="item item-input">
+            <div class="input-label">
+              Fax
+            </div>
+            <input type="text" placeholder="Tap to add" ng-model="appoint.fax" >
+          </label>
+          <label class="item item-input">
+            <div class="input-label">
+              Email <span style="color:red">*</span>
+            </div>
+            <input type="email" placeholder="Tap to add" ng-model="appoint.email" required >
+            <i class="icon ion-alert-circled assertive error"></i>
+          </label>
+          <label class="item item-input item-select">
+            <div class="input-label">
+              Best time <br> to call <span style="color:red">*</span>
+            </div>
+            <select  ng-model="appoint.best_time" required>
+              <option value="Anytime">Anytime</option>
+              <option value="Morning at Home">Morning at Home</option>
+              <option value="Morning at Work">Morning at Work</option>
+              <option value="Afternoon at Home">Afternoon at Home</option>
+              <option value="Afternoon at Work">Afternoon at Work</option>
+              <option value="Evening at Home">Evening at Home</option>
+              <option value="Evening at Work">Evening at Work</option>
+            </select>
+            <i class="icon ion-alert-circled assertive error"></i>
+          </label>
+          <label class="item item-input">
+            <div class="input-label">
+              Preferred Date <span style="color:red">*</span>
+            </div>
+            <input type="text" placeholder="Tap to add" ng-model="appoint.date" readonly required>
+            <i class="icon ion-alert-circled assertive error"></i>
+          </label>
+          <label class="item item-input">
+            <div class="input-label">
+              Preferred Time <span style="color:red">*</span>
+            </div>
+            <ionic-timepicker input-obj="timePickerObject">
+                <input type="text" placeholder=" Tap to add" ng-model="appoint.time" readonly required>
+                <i class="icon ion-alert-circled assertive error"></i>
+                <standard-time-meridian etime='timePickerObject.inputEpochTime'></standard-time-meridian>
+            </ionic-timepicker>
+          </label>
+        </div>
+        <button class="button button-block button-balanced" style="margin:10px;">
+          Find a Provider within your area
+        </button>
+      </form>
+    </ion-content>
+  </ion-modal-view>
+</script>
+
+<script id="viewInvoiceInfo.html" type="text/ng-template">
+  <ion-modal-view>
+    <div class="bar bar-header" style="background:#2bb873;">
+      <h1 class="title" style="color:white">Invoice Information</h1>
+      <button class="button button-icon ion-ios-close-outline" style="color:white" ng-click="closeInvoiceModal();"></button>
+    </div>
+    <ion-content class="modalLogin appoint" has-bouncing="true">
+      <div ng-repeat="inv in invoice track by $index"  >
+        <center>
+          <p style="font-size:20px;color:#2bb873;margin-top:18%;">Invoice for <br>Lawn Service No:</p>
+        </center>
+        <center><p style="font-size:20px;color:#606468;"><b>{{ inv.appoint_id }}</b></p></center>
+        <div class="card">
+          <div class="item item-text-wrap">
+            <div class="row">
+              <div class="col"><p>Appointment Date:  </p></div>
+              <div class="col"><b>{{ formatDate(inv.appoint_pref_date) }}</b></div>
+            </div>
+            <div class="row">
+              <div class="col"><p>Appointment Time:  </p></div>
+              <div class="col"><b>{{ formatTime(inv.appoint_pref_time) }}</b></div>
+            </div>
+            <div class="row">
+              <div class="col"><p>Service Provided:</p></div>
+            </div>
+            <div class="row" ng-repeat="ser in listService track by $index">
+              <div class="col"><p>&nbsp;&nbsp;&nbsp;<i class="ion ion-arrow-right-c"></i> &nbsp;{{ ser.name }} </div>
+              <div class="col"><b>${{ checkNan(ser.cost) }}</b></div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col"><p>Service Total:  </p></div>
+              <div class="col"><b>${{ checkNan(servicetotal) }}</b></div>
+            </div>
+            <div class="row" >
+              <div class="col"><p>Service Tax:  </p></div>
+              <div class="col"><b>${{ checkNan(inv.service_tax) }}</b></div>
+            </div>
+            <div class="row" >
+              <div class="col"><p>Gratuity:  </p></div>
+              <div class="col"><b>${{ checkNan(inv.gratuity_amount) }}</b></div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col"><p>Grand Total:  </p></div>
+              <div class="col"><b>${{ total(servicetotal,inv.service_tax,inv.gratuity_amount) }}</b></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ion-content>
+  </ion-modal-view>
+</script>

@@ -1,0 +1,60 @@
+<ion-view cache-view="false" view-title="{{ navTitle }}" hide-back-button="true" >
+  	<ion-content class="calendar" has-bouncing="true">
+  		<center>
+			<p style="font-size:20px;color:#2bb873;margin:0 0 0 ;margin-top:5%;">Grass2Go Dashboard</p>
+			<p style="color:#606468;margin:0 0 0 !important">{{ datetime }}</p>
+	    </center><br>
+  		<div class="row">
+	        <div class="col">
+	          	<div class="list card t_customer">
+	            	<div class="item">
+			            <div class="row">
+			                <div class="col col-75"><i class="ion ion-person"></i> Personal Accounts</div>
+			                <div class="col col-25">{{ countPerAccount }}</div>
+			            </div>
+	            	</div>
+		            <div class="item item-body">
+		                <p>{{ newPerAccount }} Personal Account(s) added today !</p>
+		            </div>
+	          	</div>
+	        </div>
+	    </div>
+  		<div class="row">
+	        <div class="col">
+	          	<div class="list card t_business">
+	            	<div class="item">
+			            <div class="row">
+			                <div class="col col-75"><i class="ion ion-ios-people"></i> Business Accounts</div>
+			                <div class="col col-25">{{ countBusAccount }}</div>
+			            </div>
+	            	</div>
+		            <div class="item item-body">
+		                <p>{{ newBusAccount }} Business Account(s) added today !</p>
+		            </div>
+	          	</div>
+	        </div>
+	    </div>
+  		<div class="row">
+	        <div class="col">
+	          	<div class="list card t_inactive">
+	            	<div class="item">
+			            <div class="row">
+			                <div class="col col-75"><i class="ion ion-alert-circled"></i> Inactive Business <br><span style="padding: 0 12px;"></span>Accounts</div>
+			                <div class="col col-25">{{ countBusInAccount }}</div>
+			            </div>
+	            	</div>
+		            <div class="item item-body" ng-click="viewMore()">
+		                <p>View More &nbsp;<i class="icon ion-forward"></i></p>
+		            </div>
+	          	</div>
+	        </div>
+	    </div>
+  		<div class="row">
+	        <div class="col">
+        		<div class="calendar-card">
+			        <div class="ionic-fullcalendar" data-tap-disabled="true" ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
+			    </div>
+	        </div>
+	    </div>
+  	</ion-content>
+</ion-view>

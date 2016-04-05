@@ -1,0 +1,75 @@
+<ion-view cache-view="false" hide-nav-bar="true">
+  <ion-content class="login" overflow-scroll="false">
+    <div class="row">
+      <div class="col col-10"></div>
+      <div class="col col-80"><img ng-src="img/logo.png" width="100%"></div>
+      <div class="col col-10"></div>
+    </div><br>
+    <div class="row btn">
+      <div class="col col-50">
+        <button class="button button-block button-assertive" ng-click="showReg()">
+          I'm New
+        </button>
+      </div>
+      <div class="col col-50">
+        <button class="button button-block button-balanced" ng-click="showLoginForm()">
+          Sign In
+        </button>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>
+
+<script id="loginForm.html" type="text/ng-template">
+  <ion-modal-view>
+    <div class="bar bar-header" style="background:#e6ffe0;">
+      <h1 class="title"></h1>
+      <button class="button button-icon ion-ios-close-empty" ng-click="closeModal();"></button>
+    </div>
+    <ion-content class="modalLogin" has-bouncing="true">
+      <center>
+        <p style="font-size:25px;margin-top:15%;color:#606468;">Welcome Back</p>
+        <p style="font-size:18px;color:#2bb873;">Login to your account to start</p>
+      </center><br>
+      <form novalidate="novalidate" ng-submit="login(loginCredentials)" name="loginCredentials">
+        <div class="list" style="margin:10px;">
+          <label class="item item-input ">
+            <input type="email" placeholder="Email Address" ng-model="user.email" style="text-align:center;" required >
+            <i class="icon ion-alert-circled assertive error"></i>
+          </label>
+          <label class="item item-input ">
+            <input type="password" placeholder="Password" ng-model="user.pass" style="text-align:center;" required>
+            <i class="icon ion-alert-circled assertive error"></i>
+          </label>
+        </div>
+        <center>
+          <a style="font-size:18px;color:#606468;text-decoration:none;" ng-click="closeLoginModal()">Forgot your password?</a>
+        </center>
+        <div class="row">
+          <div class="col">
+            <button class="button button-block button-balanced" style="margin-top:20%" >
+              Login
+            </button>
+          </div>
+        </div>
+      </form>
+    </ion-content>
+  </ion-modal-view>
+</script>
+
+<script id="reg.html" type="text/ng-template">
+  <ion-modal-view>
+    <div class="bar bar-header" style="background:transparent;">
+      <h1 class="title"></h1>
+      <button class="button button-icon ion-ios-close-empty" ng-click="closeRegModal();" overflow-scroll="false"></button>
+    </div>
+    <ion-content class="modalReg" overflow-scroll="false">
+      <a class="button button-block button-assertive" style="margin:10px;margin-top:50%" menu-close ng-click="personalAccountModal()">
+        I want a personal account
+      </a>
+      <a class="button button-block button-assertive" style="margin:10px;" menu-close ng-click="businessAccountModal()">
+        I want a business account
+      </a>
+    </ion-content>
+  </ion-modal-view>
+</script>

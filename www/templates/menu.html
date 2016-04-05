@@ -1,0 +1,66 @@
+<ion-side-menus cache-view="false" enable-menu-with-back-views="true">
+  <ion-side-menu-content>
+    <ion-nav-bar class="bar-stable">
+      <ion-nav-buttons side="right">
+        <button class="button button-icon button-clear button-assertive ion-navicon" menu-toggle="right">
+        </button>
+      </ion-nav-buttons>
+
+      <ion-nav-back-button>
+      </ion-nav-back-button>
+
+    </ion-nav-bar>
+    <ion-nav-view name="menuContent"></ion-nav-view>
+  </ion-side-menu-content>
+
+  <ion-side-menu side="right">
+    <ion-header-bar class="bar-assertive">
+      <h1 class="title" style="font-size:20px;" ng-if="userlog == 'personal' ">Hi {{ name }}</h1>
+      <h1 class="title" style="font-size:20px;" ng-if="userlog == 'business' ">{{ company_name }}</h1>
+      <h1 class="title" style="font-size:20px;" ng-if="userlog == 'admin' ">Hi Admin</h1>
+    </ion-header-bar>
+    <ion-content >
+      <ion-list>
+        <ion-item menu-close style="font-size:20px;color:#606468;" href="#/menu/calendar" ng-if="userlog == 'personal' ">
+          <i class="ion ion-calendar"></i><span class="tab"></span>Calendar
+        </ion-item>
+        <ion-item menu-close style="font-size:20px;color:#606468;" href="#/menu/invoice" ng-if="userlog == 'personal' ">
+          <i class="ion ion-android-list"></i><span class="tab"></span>Invoice
+        </ion-item>
+        <ion-item menu-close style="font-size:20px;color:#606468;" href="#/menu/myAccount" ng-if="userlog == 'personal' ">
+          <i class="ion ion-gear-a"></i><span class="tab"></span>My Account
+        </ion-item>
+        <ion-item menu-close style="font-size:20px;color:#606468;" href="#/menu/calendarBusiness" ng-if="userlog == 'business' ">
+          <i class="ion ion-calendar"></i><span class="tab"></span>Calendar
+        </ion-item>
+        <ion-item menu-close style="font-size:20px;color:#606468;" href="#/menu/pendingBookings" ng-if="userlog == 'business' ">
+          <i class="ion ion-android-time"></i><span class="tab"></span>Pending Bookings<!--<span class="badge badge-positive">{{ pending }}</span>-->
+        </ion-item>
+        <ion-item menu-close style="font-size:20px;color:#606468;" href="#/menu/services" ng-if="userlog == 'business' ">
+          <i class="ion ion-gear-b"></i><span class="tab"></span>Services
+        </ion-item>
+        <ion-item menu-close style="font-size:20px;color:#606468;" href="#/menu/agents" ng-if="userlog == 'business' ">
+          <i class="ion ion-ios-people"></i><span class="tab"></span>Service Agents
+        </ion-item>
+        <ion-item menu-close style="font-size:20px;color:#606468;" href="#/menu/myBusinessAccount" ng-if="userlog == 'business' ">
+          <i class="ion ion-gear-a"></i><span class="tab"></span>My Account
+        </ion-item>
+        <ion-item menu-close style="font-size:20px;color:#606468;" href="#/menu/dashboard" ng-if="userlog == 'admin' ">
+          <i class="ion ion-android-clipboard"></i><span class="tab"></span>Dashboard
+        </ion-item>
+        <ion-item menu-close style="font-size:20px;color:#606468;" href="#/menu/listPersonalAccount" ng-if="userlog == 'admin' ">
+          <i class="ion ion-person"></i><span class="tab"></span>Personal Accounts
+        </ion-item>
+        <ion-item menu-close style="font-size:20px;color:#606468;" href="#/menu/listBusinessAccount" ng-if="userlog == 'admin' ">
+          <i class="ion ion-ios-people"></i><span class="tab"></span>Business Accounts
+        </ion-item>
+        <ion-item menu-close style="font-size:20px;color:#606468;" href="#/menu/listInactiveAccount" ng-if="userlog == 'admin' ">
+          <i class="ion ion-alert-circled"></i><span class="tab"></span>Inactive Business
+        </ion-item>
+        <ion-item  menu-close style="font-size:20px;color:#606468;" ng-click="logout()">
+          <i class="ion ion-power"></i><span class="tab"></span>Logout
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-side-menu>
+</ion-side-menus>

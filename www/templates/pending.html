@@ -1,0 +1,378 @@
+<ion-view cache-view="false" view-title="{{ navTitle }}" >
+  	<ion-content class="calendar" has-bouncing="true">
+	    <center>
+	        <p style="font-size:20px;margin-top:5%;color:#606468;">Lists of Pending Appointments</p>
+	    </center>
+	    <div class="list" style="margin:10px;">
+	     	<a class="item item-avatar" ng-show="appoints != 0" ng-repeat="booked in appoints track by $index" ng-click="viewBooking(booked.appoint_id)">
+			      	<img src="img/time.png">
+			      	<h2>Lawn Service No: {{ booked.appoint_id }}</h2>
+			      	<p>{{ formatDate(booked.appoint_pref_date) }} at {{ formatTime(booked.appoint_pref_time) }} </p>
+		  	</a>
+	    </div>
+	  	<div class="card" ng-show="appoints == 0">
+		    <div class="item item-text-wrap">
+		      No Pending Appointments found.
+		    </div>
+		</div>
+  	</ion-content>
+</ion-view>
+
+
+<script id="Booking.html" type="text/ng-template">
+  <ion-modal-view>
+    <div class="bar bar-header" style="background:#2bb873;">
+      <h1 class="title" style="color:white">Appointment Schedule</h1>
+      <button class="button button-icon ion-ios-close-outline" style="color:white" ng-click="closeBookingModal();"></button>
+    </div>
+    <ion-content class="modalLogin appoint" has-bouncing="true">
+	    <div class="card" style="margin-top:20%" ng-repeat="event in events track by $index" ng-if="events != 0">
+		    <div class="item item-divider " style="text-align:center;background-color:#2BB873;">
+    			<p style="font-size:15px;color:#fff;font-weight:bold;">{{ profile.property_name }}</p>
+  			</div>
+	        <div class="row">
+	            <div class="col"><img src="img/time.png" style="float:left;margin-left:2px;"width="40" height="40"></div>
+	            <div class="col-50">
+	              <center>
+	                <p style="font-size:20px;color:#2bb873;">{{ formatDate(event.appoint_pref_date) }}</p>
+	                <p style="font-size:30px;color:#000;">{{ formatTime(event.appoint_pref_time) }}</p>
+	              </center>
+	            </div>
+	            <div class="col"><img src="img/check.png" style="float:right;margin-right:2px;"width="40" height="40"></div>
+	        </div>
+	        <center>
+	          <div class="row" ng-if="event.status == 'pending' && formatDateX(event.appoint_pref_date) ">
+	            <div class="col">
+	              <button class="button button-block button-assertive" ng-click="btn_action(event.appoint_id,0,title)">
+	                Decline
+	              </button>
+	            </div>
+	            <div class="col">
+	              <button class="button button-block button-balanced" ng-click="btn_action(event.appoint_id,1,event.appoint_pref_date,event.yard_size)">
+	                Approved
+	              </button>
+	            </div>
+	          </div>
+	          <div class="row" ng-if="event.status == 'declined' ">
+	            <div class="col">
+	              <p style="font-size:15px;color:#a94442 ;background-color:#F2DEDE;padding:10px 5px 10px;margin-bottom:10px;border:1px solid;border-radius:4px;border-color: #ebccd1;text-align:center;">
+	                You <b>declined</b> this booking !
+	              </p>
+	            </div>
+	          </div>
+	          <div class="row" ng-if="event.status == 'approved'" >
+	            <div class="col">
+	              <p style="font-size:20px;font-weight:bold;color:#3c763d;background-color:#dff0d8;padding:10px 5px 10px;margin-bottom:10px;border:1px solid;border-radius:4px;border-color: #d6e9c6;" >Approved</p>
+	            </div>
+	          </div>
+	        </center>
+	        <div class="card" ng-repeat="list in booking_ track by $index" style="margin-top:0px;">
+			  	<div class="item item-divider" style="background-color:#2BB873;color:#fff">
+			    	Booking Information
+			  	</div>
+	        	<div class="row" >
+	        		<div class="col"><p style="font-style:italic" >Customer Name</p></div>
+	        		<div class="col"><a ng-click="viewCust(list.profile_id)" style="color:#0E9BFF;text-decoration: underline;font-size:20px;"><b>{{ list.appoint_fullname }}</b></a></div>
+	        	</div>
+	        	<div class="row"  style="margin-top:-20px;">
+	        		<div class="col"><p style="font-style:italic" >Address</p></div>
+	        		<div class="col"><b>{{ list.appoint_address }}</b></div>
+	        	</div>
+	        	<div class="row"  style="margin-top:-20px;">
+	        		<div class="col"><p style="font-style:italic" >City</p></div>
+	        		<div class="col"><b>{{ list.appoint_city }}</b></div>
+	        	</div>
+	        	<div class="row"  style="margin-top:-20px;">
+	        		<div class="col"><p style="font-style:italic" >State</p></div>
+	        		<div class="col"><b>{{ list.appoint_state }}</b></div>
+	        	</div>
+	        	<div class="row"  style="margin-top:-20px;">
+	        		<div class="col"><p style="font-style:italic" >Zip Code</p></div>
+	        		<div class="col"><b>{{ list.appoint_zip }}</b></div>
+	        	</div>
+	        	<div class="row"  style="margin-top:-20px;">
+	        		<div class="col"><p style="font-style:italic" >Prefer to be Contacted</p></div>
+	        		<div class="col"><b>via {{ list.appoint_pref_contacted }}</b></div>
+	        	</div>
+	        	<div class="row"  style="margin-top:-20px;">
+	        		<div class="col"><p style="font-style:italic" >Phone</p></div>
+	        		<div class="col"><b>{{ list.appoint_phone }}</b></div>
+	        	</div>
+	        	<div class="row"  style="margin-top:-20px;">
+	        		<div class="col"><p style="font-style:italic" >Fax</p></div>
+	        		<div class="col"><b>{{ list.appoint_fax }}</b></div>
+	        	</div>
+	        	<div class="row"  style="margin-top:-20px;">
+	        		<div class="col"><p style="font-style:italic" >Email</p></div>
+	        		<div class="col"><b>{{ list.appoint_email }}</b></div>
+	        	</div>
+	        	<div class="row"  style="margin-top:-20px;">
+	        		<div class="col"><p style="font-style:italic" >Best time to call</p></div>
+	        		<div class="col"><b>{{ list.appoint_time_call }}</b></div>
+	        	</div>
+	        	<div class="row"  style="margin-top:-20px;">
+	        		<div class="col"><p style="font-style:italic" >Yard Size</p></div>
+	        		<div class="col"><b>{{ list.yard_size }} sq ft</b></div>
+	        	</div>
+		        <div class="row">
+		        	<div class="col">
+		              	<button class="button button-balanced button-block" ng-click="viewInvoice(list.appoint_id)">
+		               	 	View Invoice Information
+		              	</button>
+		            </div>
+		        </div>
+	        </div>
+	      </div>	
+	      <div class="card" ng-if="events == 0">
+  		  <div class="item item-text-wrap">
+  		    No Appointment Scheduled found.
+  		  </div>
+  		</div>
+    </ion-content>
+  </ion-modal-view>
+</script>
+
+<script id="viewInvoiceInfo.html" type="text/ng-template">
+  <ion-modal-view>
+    <div class="bar bar-header" style="background:#2bb873;">
+      <h1 class="title" style="color:white">Invoice Information</h1>
+      <button class="button button-icon ion-ios-close-outline" style="color:white" ng-click="closeInvoiceModal();"></button>
+    </div>
+    <ion-content class="modalLogin appoint" has-bouncing="true">
+      <div ng-repeat="inv in invoice track by $index"  >
+        <center>
+          <p style="font-size:20px;color:#2bb873;margin-top:18%;">Invoice for <br>Lawn Service No:</p>
+        </center>
+        <center><p style="font-size:20px;color:#606468;"><b>{{ inv.appoint_id }}</b></p></center><br>
+        <div style="margin-left:10px;margin-right:10px">
+         <p style="padding-left:10px;">Name:  <b> {{ profile.profile_lastname }}, {{ profile.profile_firstname }}</b></p>
+         <p style="padding-left:10px;">Address:  <b> {{ profile.property_address }}</b></p>
+         <p style="padding-left:10px;">Card Number:  <b> {{ profile.card_number }}</b></p>
+        </div>
+        <div class="card">
+          <div class="item item-text-wrap">
+            <div class="row">
+              <div class="col"><p>Appointment Date:  </p></div>
+              <div class="col"><b>{{ formatDate(inv.appoint_pref_date) }}</b></div>
+            </div>
+            <div class="row">
+              <div class="col"><p>Appointment Time:  </p></div>
+              <div class="col"><b>{{ formatTime(inv.appoint_pref_time) }}</b></div>
+            </div>
+            <div class="row">
+              <div class="col"><p>Service Provided:</p></div>
+            </div>
+            <div class="row" ng-repeat="ser in listService track by $index">
+              <div class="col"><p>&nbsp;&nbsp;&nbsp;<i class="ion ion-arrow-right-c"></i> &nbsp;{{ ser.name }} </div>
+              <div class="col"><b>${{ checkNan(ser.cost) }}</b></div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col"><p>Service Total:  </p></div>
+              <div class="col"><b>${{ checkNan(servicetotal) }}</b></div>
+            </div>
+            <div class="row" >
+              <div class="col"><p>Service Tax:  </p></div>
+              <div class="col"><b>${{ checkNan(inv.service_tax) }}</b></div>
+            </div>
+            <div class="row" >
+              <div class="col"><p>Gratuity:  </p></div>
+              <div class="col"><b>${{ checkNan(inv.gratuity_amount) }}</b></div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col"><p>Grand Total:  </p></div>
+              <div class="col"><b>${{ total(servicetotal,inv.service_tax,inv.gratuity_amount) }}</b></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ion-content>
+  </ion-modal-view>
+</script>
+
+<script id="rating.html" type="text/ng-template">
+  <ion-modal-view>
+    <div class="bar bar-header" style="background:#2bb873;">
+      <h1 class="title" style="color:white">Rate</h1>
+    </div>
+    <ion-content class="modalLogin appoint" has-bouncing="true">
+      <center>
+        <p style="font-size:25px;margin-top:25%;color:#606468;">Thank You!</p>
+        <p style="font-size:20px;color:#2bb873;margin:0 0 0 !important">Rate your customer</p>
+      </center>
+      <hr style="margin-right:20px !important;margin-left:20px !important;"><br>
+      <center>
+        <div style="margin-right:30px !important;margin-left:30px !important;">
+          <button class="button button-clear" style="color:black;min-width:0px !important" ng-click="rating(1)">
+            <i ng-class="{'ion ion-ios-star assertive' : some_model[1] , 'ion ion-ios-star-outline' : !some_model[1]}" style="font-size:40px;" ></i>
+          </button>
+          <button class="button button-clear" style="color:black;min-width:0px !important" ng-click="rating(2)">
+            <i ng-class="{'ion ion-ios-star assertive' : some_model[2] , 'ion ion-ios-star-outline' : !some_model[2]}" style="font-size:40px;"></i>
+          </button>
+          <button class="button button-clear" style="color:black;min-width:0px !important" ng-click="rating(3)">
+            <i ng-class="{'ion ion-ios-star assertive' : some_model[3] , 'ion ion-ios-star-outline' : !some_model[3]}" style="font-size:40px;"></i>
+          </button>
+          <button class="button button-clear" style="color:black;min-width:0px !important" ng-click="rating(4)">
+            <i ng-class="{'ion ion-ios-star assertive' : some_model[4] , 'ion ion-ios-star-outline' : !some_model[4]}" style="font-size:40px;"></i>
+          </button>
+          <button class="button button-clear" style="color:black;min-width:0px !important" ng-click="rating(5)">
+            <i ng-class="{'ion ion-ios-star assertive' : some_model[5] , 'ion ion-ios-star-outline' : !some_model[5]}" style="font-size:40px;"></i>
+          </button>
+        </div>
+      </center><br>
+      <hr style="margin-right:20px !important;margin-left:20px !important;">
+      <center>
+        <p style="font-size:20px;color:#2bb873;margin:0 0 0 !important">Feedback</p>
+      </center><br>
+      <label class="item item-input text" style="margin-left:10px;margin-right:10px;">
+        <textarea placeholder="Enter a Feedback here" rows="10" ng-model="feed.feedback" ></textarea>
+      </label>
+      <a class="button button-block button-balanced" style="margin:10px;" ng-click="submitReview(account_id)">
+        Submit
+      </a>
+    </ion-content>
+  </ion-modal-view>
+</script>
+
+<script id="appointAgent_.html" type="text/ng-template">
+  <ion-modal-view>
+    <div class="bar bar-header" style="background:#2bb873;">
+      <h1 class="title" style="color:white">Set an Appointment</h1>
+      <button class="button button-icon ion-ios-close-outline" style="color:white" ng-click="closeAppointAgentModal();"></button>
+    </div>
+    <ion-content class="modalLogin appoint" has-bouncing="true">
+      	<form novalidate="novalidate" ng-submit="addAppointAgent(data)" name="data">
+	      	<div class="list" style="margin:10px;margin-top:20%;">
+		        <label class="item item-input item-select">
+		          <div class="input-label">
+		            Appoint Agent
+		          </div>
+		          <i ng-if="error" class="icon ion-alert-circled assertive error"></i>
+		          <select ng-model="appoint.agent" required>
+		            <option value="0">Select</option>
+		            <option ng-repeat="agent in agents" value="{{ agent.agent_id }}">{{ agent.agent_fname }} {{ agent.agent_lname }}</option>
+		          </select>
+		        </label>
+		        <label class="item item-input">
+		          <div class="input-label">
+		            Yard Size
+		          </div>
+		          <input type="text" placeholder="Tap to add" value="{{ yard_size }} sq ft" style="text-align:right;" readonly required>
+		          <i class="icon ion-alert-circled assertive error-appoint"></i>
+		        </label>
+		        <label class="item item-input">
+		          <div class="input-label">
+		            Service Tax
+		          </div>
+		          <input type="number" placeholder="Tap to add" ng-model="appoint.serv_tax" style="text-align:right;" required>
+		          <i class="icon ion-alert-circled assertive error-appoint"></i>
+		        </label>
+		        <label class="item item-input">
+		          <div class="input-label">
+		            Gratuity Amount
+		          </div>
+		          <input type="number" placeholder="Tap to add" ng-model="appoint.amount" style="text-align:right;" required>
+		          <i class="icon ion-alert-circled assertive error-appoint"></i>
+		        </label>
+	      	</div>
+	        <div class="row">
+	          <div class="col">
+	            <button class="button button-block button-balanced" style="margin-top:10%" >
+	              Submit
+	            </button>
+	          </div>
+	        </div>
+	    </form>
+    </ion-content>
+  </ion-modal-view>
+</script>
+
+<script id="viewCustInfo.html" type="text/ng-template">
+  <ion-modal-view>
+    <div class="bar bar-header" style="background:#2bb873;">
+      <h1 class="title" style="color:white">Customer Information</h1>
+      <button class="button button-icon ion-ios-close-outline" style="color:white" ng-click="closeCustModal();"></button>
+    </div>
+    <ion-content class="modalLogin appoint" has-bouncing="true">
+
+      <center>
+        <p style="font-size:20px;color:#2bb873;margin:0 0 0 ;margin-top:5%;"><i class="icon ion-information-circled "></i> Information</p>
+      </center>
+      <div class="list card" >
+
+        <div class="item item-avatar">
+          <img src="img/profile.png">
+          <h2><b>{{ userInfo.profile_firstname }} {{ userInfo.profile_lastname }}</b></h2>
+          <p>{{ userInfo.profile_email }}</p>
+        </div>
+
+        <div class="item item-body">
+          <p> Property Name: <b>{{ userInfo.property_name }}</b><br>
+            Address: <b>{{ userInfo.property_address }}</b><br>
+            Postal Code: <b>{{ userInfo.property_postal_code }}</b><br>
+            Phone: <b>{{ userInfo.property_phone }}</b>
+          </p><hr>
+          <p> Card Name: <b>{{ userInfo.card_name }}</b><br>
+            Card Number: <b>{{ userInfo.card_number }}</b><br>
+            Start Date: <b>{{ formatDate(userInfo.card_start_date) }}</b><br>
+            End Date: <b>{{ formatDate(userInfo.card_end_date) }}</b><br>
+            Issue Number: <b>{{ userInfo.card_issue_number }}</b>
+          </p><hr>
+          
+          <p> Reviews: </p>
+          <div ng-if="view_ratings">
+            <center><p style="font-size:30px;">
+              <b> {{ avg }}</b>
+              <rating ng-model="rating.rate" max="rating.max"></rating><br>
+            </p></center>
+            <p>
+              <div class="row">
+                <div class="col-30">
+                  <i class="icon ion-android-star" style="color:#9FC05A"></i> 5 :
+                </div>
+                <div class="col">
+                  <div style="height: 16px; width: {{rate.five}}%; transition: width 0.1s; background: #9FC05A;margin-top:-3px;"></div>
+              </div>
+              </div>
+              <div class="row">
+                <div class="col-30">
+                  <i class="icon ion-android-star" style="color:#ADD633"></i> 4 :
+                </div>
+                <div class="col">
+                  <div style="height: 16px; width: {{rate.four}}%; transition: width 0.1s; background: #ADD633;margin-top:-3px;"></div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-30">
+                  <i class="icon ion-android-star" style="color:#FFD834"></i> 3 :
+                </div>
+                <div class="col">
+                  <div style="height: 16px; width: {{rate.three}}%; transition: width 0.1s; background: #FFD834;margin-top:-3px;"></div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-30">
+                  <i class="icon ion-android-star" style="color:#FFB234"></i> 2 :
+                </div>
+                <div class="col">
+                  <div style="height: 16px; width: {{rate.two}}%; transition: width 0.1s; background: #FFB234;margin-top:-3px;"></div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-30">
+                  <i class="icon ion-android-star" style="color:#FF8B5A"></i> 1 :
+                </div>
+                <div class="col">
+                  <div style="height: 16px; width: {{rate.one}}%; transition: width 0.1s; background: #FF8B5A;margin-top:-3px;"></div>
+                </div>
+              </div>
+            </p>
+          </div>
+          <div ng-if="!view_ratings"><p>No Rating(s) yet !</p></div>
+      </div>
+
+      </div>
+    </ion-content>
+  </ion-modal-view>
+</script>

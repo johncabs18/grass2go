@@ -1,0 +1,58 @@
+<ion-view cache-view="false" title="Set Provider">
+  <ion-nav-buttons side="right" style="color:#606468 !important;" >
+      <i class="icon ion-ios-navigate-outline" style="font-size:34px !important;margin-right:4px;" ng-click="initializeAppointProvider();"></i>
+  </ion-nav-buttons>
+  <ion-content has-bouncing="true" >
+    <form novalidate="novalidate" ng-submit="submit(data)" name="data">
+  		<div class="list appoint" style="margin:10px;margin-top:5%;">
+        <label class="item item-input">
+          	<div class="input-label">
+           		Company Name
+          	</div>
+          	<input type="text" placeholder="Tap to add" ng-model="appoint.company_name" readonly required>
+            <i class="icon ion-alert-circled assertive error-appoint"></i>
+        </label>
+        <label class="item item-input">
+          	<div class="input-label">
+            	Phone 
+          	</div>
+          	<input type="text" placeholder="Tap to add" ng-model="appoint.phone" readonly required>
+            <i class="icon ion-alert-circled assertive error-appoint"></i>
+        </label>
+        <label class="item item-input">
+          	<div class="input-label">
+            	Email
+          	</div>
+          	<input type="text" placeholder="Tap to add" ng-model="appoint.email" readonly required>
+            <i class="icon ion-alert-circled assertive error-appoint"></i>
+        </label>
+        <label class="item item-input">
+          	<div class="input-label">
+            	Size of Yard
+          	</div>
+          <input type="number" placeholder="(square footage)" ng-model="appoint.size" required>
+          <i class="icon ion-alert-circled assertive error-appoint"></i>
+        </label>
+        <label class="item item-input item-select" >
+          	<div class="input-label" >
+            Company Services
+          	</div>
+            <i ng-if="error" class="icon ion-alert-circled assertive"></i>
+        </label>
+      	<ion-list ng-if="services != 0">
+  		  	<ion-checkbox ng-model="appoint.services[list.service_id]" ng-repeat="list in services track by $index">
+  		  		{{ list.service_name }} 
+  		  		<span class="badge badge-balanced">${{ list.service_cost }}</span>
+  		  	</ion-checkbox>
+  		  </ion-list>
+      </div>
+      <div class="row">
+          <div class="col">
+            <button class="button button-block button-balanced">
+              Submit
+            </button>
+          </div>
+        </div>
+    </form>
+  </ion-content>
+</ion-view>

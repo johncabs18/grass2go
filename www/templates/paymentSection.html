@@ -1,0 +1,47 @@
+<ion-view cache-view="false" view-title="Payment Information">
+  <ion-nav-bar class="bar-balanced">
+    <ion-nav-back-button class="button-clear">
+      <i class="ion-ios-arrow-back"></i> Back
+    </ion-nav-back-button>
+  </ion-nav-bar>
+  <ion-content class="modalLogin" has-bouncing="true">
+    <div class="row">
+      <div class="col col-10"></div>
+      <div class="col col-80"><img src="img/payment_img.png" style="margin-top:10%;" width="100%"></div>
+      <div class="col col-10"></div>
+    </div><br>
+    <form novalidate="novalidate" ng-submit="profileSection(data)" name="data">
+      <div class="list list-inset" style="margin:10px;">
+        <label class="item item-input">
+          <input type="text" placeholder="Cardholders Name" ng-model="card.name"  required>
+          <i class="icon ion-alert-circled assertive error"></i>
+        </label>
+        <label class="item item-input">
+          <input type="text" placeholder="Card Number" ng-model="card.number" required>
+          <i class="icon ion-alert-circled assertive error"></i>
+        </label>
+        <label class="item item-input">
+          <span class="input-label" style="color:#C7C7CD;">Start Date</span>
+          <input type="month" placeholder="Start Date" ng-model="card.start_date" required>
+          <i class="icon ion-alert-circled assertive error-month"></i>
+        </label>
+        <label class="item item-input">
+          <span class="input-label" style="color:#C7C7CD;">End Date</span>
+          <input type="month" placeholder="End Date" ng-model="card.end_date" required>
+          <i class="icon ion-alert-circled assertive error-month"></i>
+        </label>
+        <label class="item item-input">
+          <input type="number" placeholder="Issue Number" ng-model="card.issue_number" required>
+          <i class="icon ion-alert-circled assertive error"></i>
+        </label>
+      </div>
+      <div class="row">
+        <div class="col">
+          <button class="button button-block button-assertive" style="margin-top:20%">
+            Next
+          </button>
+        </div>
+      </div>
+    </form>
+  </ion-content>
+</ion-modal-view>

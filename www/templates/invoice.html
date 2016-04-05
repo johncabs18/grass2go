@@ -1,0 +1,78 @@
+<ion-view cache-view="false" view-title="{{ navTitle }}">
+	<ion-nav-buttons side="left" style="color:#606468 !important;" >
+        <i  class="icon ion-ios-search-strong" style="font-size:34px !important;margin-left:4px;" ng-click="showSearch()"></i>
+    </ion-nav-buttons>
+  	<ion-content class="calendar" has-bouncing="true">
+  		<div ng-if="searchView">
+			<onezone-datepicker datepicker-object="onezoneDatepicker">
+				<div class="list list-inset">
+				  <label class="item item-input">
+				    <i class="icon ion-calendar"></i>&nbsp;&nbsp;
+				    <input type="text" placeholder=" Search Invoice by date" class="show-onezone-datepicker" ng-model="date.pick" ng-readonly="true">
+				  </label>
+				</div>
+			</onezone-datepicker>
+
+			<div class="list"  ng-if="view" style="margin:0px 11px;">
+				<label class="item item-input item-select">
+		          	<div class="input-label">
+		            	Invoice No.
+		          	</div>
+		          	<select ng-model="pick.id" ng-change="filterInvoice()" >
+		            	<option value="0">Select</option>
+		            	<option ng-repeat="sl in select_time" value="{{ sl.appoint_id }}">{{sl.appoint_id }}</option>
+		          	</select>
+		        </label>
+		    </div>
+		</div>
+		<div ng-repeat="inv in invoice track by $index"  ng-if="invoice != 0">
+	        <div class="card">
+	          <div class="item item-text-wrap">
+	          	<center>
+		          <p style="font-size:20px;color:#2bb873;">Invoice for <br>Lawn Service No:</p>
+		        </center>
+		        <center><p style="font-size:20px;color:#606468;"><b>{{ inv.appoint_id }}</b></p></center>
+		        <hr>
+	            <div class="row">
+	              <div class="col"><p>Appointment Date:  </p></div>
+	              <div class="col"><b>{{ formatDate(inv.appoint_pref_date) }}</b></div>
+	            </div>
+	            <div class="row">
+	              <div class="col"><p>Appointment Time:  </p></div>
+	              <div class="col"><b>{{ formatTime(inv.appoint_pref_time) }}</b></div>
+	            </div>
+	            <div class="row">
+	              <div class="col"><p>Service Provided:</p></div>
+	            </div>
+	            <div class="row" ng-repeat="ser in listService track by $index">
+	              <div class="col"><p>&nbsp;&nbsp;&nbsp;<i class="ion ion-arrow-right-c"></i> &nbsp;{{ ser.name }} </div>
+	              <div class="col"><b>${{ checkNan(ser.cost) }}</b></div>
+	            </div>
+	            <hr>
+	            <div class="row">
+	              <div class="col"><p>Service Total:  </p></div>
+	              <div class="col"><b>${{ checkNan(servicetotal) }}</b></div>
+	            </div>
+	            <div class="row" >
+	              <div class="col"><p>Service Tax:  </p></div>
+	              <div class="col"><b>${{ checkNan(inv.service_tax) }}</b></div>
+	            </div>
+	            <div class="row" >
+	              <div class="col"><p>Gratuity:  </p></div>
+	              <div class="col"><b>${{ checkNan(inv.gratuity_amount) }}</b></div>
+	            </div>
+	            <hr>
+	            <div class="row">
+	              <div class="col"><p>Grand Total:  </p></div>
+	              <div class="col"><b>${{ total(servicetotal,inv.service_tax,inv.gratuity_amount) }}</b></div>
+	            </div>
+	          </div>
+	        </div>
+	    </div>
+	    <div class="card" ng-if="hide">
+  		  <div class="item item-text-wrap">
+  		    No Invoice found.
+  		  </div>
+  		</div>
+  	</ion-content>
+</ion-view>

@@ -1,0 +1,128 @@
+<ion-view cache-view="false" view-title="{{ navTitle }}">
+	<ion-nav-buttons side="left" style="color:#606468 !important;">
+        <i class="icon ion-ios-plus-outline" style="font-size:34px !important;margin-right:4px;" ng-click="add_agent();"></i>
+    </ion-nav-buttons>
+  	<ion-content has-bouncing="true" style="background:#e6ffe0;">
+	    <center>
+	        <p style="font-size:25px;margin-top:5%;color:#606468;">Lists of Agents</p>
+	    </center><br>
+	    <div class="list" ng-show="allAgents != 0">
+		    <a class="item item-avatar" ng-repeat="list in allAgents track by $index" style="margin-left:10px;margin-right:10px;" ng-click="actionAgent(list.agent_id,list.agent_fname,list.agent_lname,list.agent_email,list.agent_phone, list.agent_img)">
+		      <img ng-if="list.agent_img != '' " src="{{ baseURL }}{{ list.agent_img }}" width="100%">
+		      <img ng-if="list.agent_img == '' " src="img/profile.png" width="100%">
+		      <h2>{{ list.agent_fname }} {{ list.agent_lname }}</h2>
+		      <p>{{ list.agent_email }}</p>
+		    </a>
+		</div>
+		<div class="card" ng-show="allAgents == 0">
+		    <div class="item item-text-wrap">
+		      No agent(s) found.
+		    </div>
+		</div>
+  	</ion-content>
+</ion-view>
+
+<script id="addAgent.html" type="text/ng-template">
+  <ion-modal-view>
+    <div class="bar bar-header" style="background:#e6ffe0;">
+      <h1 class="title"></h1>
+      <button class="button button-icon ion-ios-close-empty" ng-click="closeAddModal();"></button>
+    </div>
+    <ion-content has-bouncing="true" style="background:#e6ffe0;">
+	    <center>
+	        <p style="font-size:25px;margin-top:15%;color:#606468;">Create Agent</p>
+	    </center><br>
+      	<form novalidate="novalidate" ng-submit="create_agent(data)" name="data" enctype="multipart/form-data">
+		    <div class="list" style="margin:10px;">
+		        <label class="item item-input">
+		          	<input type="text" placeholder="First Name *" ng-model="agent.fname" style="text-align:center;" required >
+	            	<i class="icon ion-alert-circled assertive error"></i>
+		        </label>
+		        <label class="item item-input">
+		          	<input type="text" placeholder="Last Name *" ng-model="agent.lname" style="text-align:center;" required>
+	            	<i class="icon ion-alert-circled assertive error"></i>
+		        </label>
+		        <label class="item item-input">
+		          	<input type="email" placeholder="Email Address *" ng-model="agent.email" style="text-align:center;" required>
+	            	<i class="icon ion-alert-circled assertive error"></i>
+		        </label>
+		        <label class="item item-input">
+		          	<input type="tel" placeholder="Phone Number *" ng-model="agent.phone" style="text-align:center;" required>
+	            	<i class="icon ion-alert-circled assertive error"></i>
+		        </label>
+            	<a class="button button-block button-balanced" ng-click="getPic()">
+              		Choose Image of Agent
+            	</a>
+	        	<img ng-src="{{ agent.img }}" ng-if="agent.img" width="100%">
+	        	<input type="hidden"  ng-model="agent.img">
+		    </div>
+	        <div class="row">
+	          	<div class="col">
+	            	<button class="button button-block button-balanced" style="margin-top:20%" >
+	              		Create Agent
+	            	</button>
+	          	</div>
+	        </div>
+		</form>
+	  </ion-content>
+  </ion-modal-view>
+</script>
+
+<script id="editAgntModal.html" type="text/ng-template">
+  <ion-modal-view>
+    <div class="bar bar-header" style="background:#e6ffe0;">
+      <h1 class="title"></h1>
+      <button class="button button-icon ion-ios-close-empty" ng-click="closeEditModal();"></button>
+    </div>
+    <ion-content has-bouncing="true" style="background:#e6ffe0;">
+	    <center>
+	        <p style="font-size:25px;margin-top:15%;color:#606468;">Edit agent info</p>
+	    </center><br>
+      	<form novalidate="novalidate" ng-submit="update_agent(data)" name="data" enctype="multipart/form-data">
+		    <div class="list" style="margin:10px;">
+		        <label class="item item-input">
+		          	<div class="input-label">
+		            	First Name
+		          	</div>
+		          	<input type="text" placeholder="First Name *" ng-model="agent.fname" required>
+		            <i class="icon ion-alert-circled assertive error-appoint"></i>
+		        </label>
+		        <label class="item item-input">
+		          	<div class="input-label">
+		            	Lastname
+		          	</div>
+		         	<input type="text" placeholder="Last Name *" ng-model="agent.lname" required>
+		            <i class="icon ion-alert-circled assertive error-appoint"></i>
+		        </label>
+		        <label class="item item-input">
+		          	<div class="input-label">
+		            	Email Address
+		          	</div>
+		          	<input type="email" placeholder="Email Address *" ng-model="agent.email" required>
+		            <i class="icon ion-alert-circled assertive error-appoint"></i>
+		        </label>
+		        <label class="item item-input">
+		          	<div class="input-label">
+		            	Phone
+		          	</div>
+		          	<input type="tel" placeholder="Phone Number *" ng-model="agent.phone" required>
+		            <i class="icon ion-alert-circled assertive error-appoint"></i>
+		        </label>
+            	<a class="button button-block button-balanced" ng-click="getPic()">
+              		Choose Image of Agent
+            	</a>
+            	<img ng-if="img_ == '' " src="img/profile.png" width="100%">
+		        <img ng-if="img_ != '' " src="{{ agent.img }}" width="100%">
+	        	<input type="hidden"  ng-model="agent.img">
+	        	<input type="hidden"  ng-model="agent.img_">
+		    </div>
+	        <div class="row">
+	          	<div class="col">
+	            	<button class="button button-block button-balanced" style="margin-top:10%" >
+	              		Update Agent
+	            	</button>
+	          	</div>
+	        </div>
+	  </ion-content>
+  </ion-modal-view>
+</script>

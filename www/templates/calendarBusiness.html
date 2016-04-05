@@ -1,0 +1,16 @@
+<ion-view cache-view="false" hide-back-button="true" view-title="{{ navTitle }}">
+	<!-- <ion-nav-buttons side="left" >
+        <i class="icon ion-ios-refresh-outline" style="font-size:34px !important;margin-left:4px;" ng-click="refresh()"></i>
+    </ion-nav-buttons> -->
+  	<ion-content class="calendar">
+	    <center>
+			<p style="font-size:20px;color:#2bb873;margin:0 0 0 ;margin-top:5%;">List of Appointments</p>
+	        <p style="font-size:15px;margin-bottom:-20px;color:#2bb873;margin-top:10%;">APPOINTMENT CALENDAR</p>
+	    </center><br>
+	    <div class="calendar-card">
+          	<!--  fullcalendar -->
+          	<div class="ionic-fullcalendar" data-tap-disabled="true" ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
+          	<!--  /.  -->
+	    </div>  
+  	</ion-content>
+</ion-view>

@@ -1,0 +1,62 @@
+<ion-view cache-view="false" view-title="">
+    <div class="bar bar-header" style="background:#e6ffe0;">
+      <a class="button button-icon ion-ios-location" style="color:#606468" ng-click="navigate()"> Navigate</a>
+      <h1 class="title"></h1>
+      <a href="#/login" class="button button-icon ion-ios-close-empty" style="color:#606468" ng-click="close()"></a>
+    </div>
+  <ion-content class="modalLogin" has-bouncing="true">
+    <center>
+      <p style="font-size:20px;margin-top:20%;color:#2bb873;">Create your Account</p>
+      <p style="font-size:30px;color:#606468;">Business Information</p>
+    </center><br>
+    <form novalidate="novalidate" ng-submit="addBusinessAccount(data)" name="data">
+      <div class="list list-inset" style="margin:10px;">
+        <label class="item item-input">
+          <input type="text" placeholder="Company Name" ng-model="business.name"  required>
+          <i class="icon ion-alert-circled assertive error"></i>
+        </label>
+        <label class="item item-input">
+          <input type="text" placeholder="Certification Number" ng-model="business.cert_num" required>
+          <i class="icon ion-alert-circled assertive error"></i>
+        </label>
+        <label class="item item-input">
+          <span class="input-label" style="color:#C7C7CD;">Latitude</span>
+          <input type="text" placeholder="Latitude" ng-model="business.lat" required>
+          <i class="icon ion-alert-circled assertive error"></i>
+        </label>
+        <label class="item item-input">
+          <span class="input-label" style="color:#C7C7CD;">Longitude</span>
+          <input type="text" placeholder="Longitude" ng-model="business.long" required>
+          <i class="icon ion-alert-circled assertive error"></i>
+        </label>
+        <label class="item item-input">
+          <input type="tel" placeholder="Phone" ng-model="business.phone" required>
+          <i class="icon ion-alert-circled assertive error"></i>
+        </label>
+        <label class="item item-input">
+          <input type="email" placeholder="Email" ng-model="business.email" required>
+          <i class="icon ion-alert-circled assertive error"></i>
+        </label>
+        <label class="item item-input">
+          <input type="password" placeholder="Password" ng-model="business.password" required>
+          <i class="icon ion-alert-circled assertive error"></i>
+        </label>
+      </div>
+
+      <!-- <a class="button button-block button-balanced" ng-if="view_map" style="margin:10px;" menu-close ng-click="viewMap(location)">View Map</a>
+      <a class="button button-block button-assertive" style="margin:10px;" menu-close ng-click="addBusinessAccount()">
+        Next
+      </a> -->
+      <div class="row">
+        <div class="col" ng-if="view_map" >
+          <a class="button button-block button-balanced" ng-click="viewMap(location)">View Map</a>
+        </div>
+        <div class="col">
+          <button class="button button-block button-assertive">
+            Submit
+          </button>
+        </div>
+      </div>
+    </form>
+  </ion-content>
+</ion-view>

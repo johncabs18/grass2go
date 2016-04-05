@@ -1,0 +1,108 @@
+<ion-view cache-view="false" view-title="{{ navTitle }}">
+  	<ion-content has-bouncing="true" style="background:#e6ffe0;">
+  		<center>
+	        <p style="font-size:20px;margin-top:5%;color:#606468;">Lists of Personal Account(s)</p>
+	    </center><br>
+	    <div class="list" ng-show="perAccount != 0">
+		    <a class="item item-avatar" ng-repeat="list in perAccount track by $index" style="margin-left:10px;margin-right:10px;" ng-click="actionPersonal(list.account_id)">
+		      <img src="img/profile.png">
+		      <h2>{{ list.profile_firstname }} {{ list.profile_lastname }}</h2>
+		      <p>{{ list.profile_email }}</p>
+		    </a>
+		</div>
+		<div class="card" ng-show="perAccount == 0"style="margin-top:10px">
+		    <div class="item item-text-wrap">
+		      No personal account(s) found.
+		    </div>
+		</div>
+  	</ion-content>
+</ion-view>
+
+<script id="viewCustInfo.html" type="text/ng-template">
+  <ion-modal-view>
+    <div class="bar bar-header" style="background:#2bb873;">
+      <h1 class="title" style="color:white">Personal Account Information</h1>
+      <button class="button button-icon ion-ios-close-outline" style="color:white" ng-click="closeCustModal();"></button>
+    </div>
+    <ion-content class="modalLogin appoint" has-bouncing="true">
+
+      <center>
+        <p style="font-size:20px;color:#2bb873;margin:0 0 0 ;margin-top:5%;"><i class="icon ion-information-circled "></i> Information</p>
+      </center>
+      <div class="list card" >
+
+        <div class="item item-avatar">
+          <img src="img/profile.png">
+          <h2><b>{{ userInfo.profile_firstname }} {{ userInfo.profile_lastname }}</b></h2>
+          <p>{{ userInfo.profile_email }}</p>
+        </div>
+
+        <div class="item item-body">
+          <p> Property Name: <b>{{ userInfo.property_name }}</b><br>
+            Address: <b>{{ userInfo.property_address }}</b><br>
+            Postal Code: <b>{{ userInfo.property_postal_code }}</b><br>
+            Phone: <b>{{ userInfo.property_phone }}</b>
+          </p><hr>
+          <p> Card Name: <b>{{ userInfo.card_name }}</b><br>
+            Card Number: <b>{{ userInfo.card_number }}</b><br>
+            Start Date: <b>{{ formatDate(userInfo.card_start_date) }}</b><br>
+            End Date: <b>{{ formatDate(userInfo.card_end_date) }}</b><br>
+            Issue Number: <b>{{ userInfo.card_issue_number }}</b>
+          </p><hr>
+          
+          <p> Reviews: </p>
+          <div ng-if="view_ratings">
+            <center><p style="font-size:30px;">
+              <b> {{ avg }}</b>
+              <rating ng-model="rating.rate" max="rating.max"></rating><br>
+            </p></center>
+            <p>
+              <div class="row">
+                <div class="col-30">
+                  <i class="icon ion-android-star" style="color:#9FC05A"></i> 5 :
+                </div>
+                <div class="col">
+                  <div style="height: 16px; width: {{rate.five}}%; transition: width 0.1s; background: #9FC05A;margin-top:-3px;"></div>
+              </div>
+              </div>
+              <div class="row">
+                <div class="col-30">
+                  <i class="icon ion-android-star" style="color:#ADD633"></i> 4 :
+                </div>
+                <div class="col">
+                  <div style="height: 16px; width: {{rate.four}}%; transition: width 0.1s; background: #ADD633;margin-top:-3px;"></div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-30">
+                  <i class="icon ion-android-star" style="color:#FFD834"></i> 3 :
+                </div>
+                <div class="col">
+                  <div style="height: 16px; width: {{rate.three}}%; transition: width 0.1s; background: #FFD834;margin-top:-3px;"></div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-30">
+                  <i class="icon ion-android-star" style="color:#FFB234"></i> 2 :
+                </div>
+                <div class="col">
+                  <div style="height: 16px; width: {{rate.two}}%; transition: width 0.1s; background: #FFB234;margin-top:-3px;"></div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-30">
+                  <i class="icon ion-android-star" style="color:#FF8B5A"></i> 1 :
+                </div>
+                <div class="col">
+                  <div style="height: 16px; width: {{rate.one}}%; transition: width 0.1s; background: #FF8B5A;margin-top:-3px;"></div>
+                </div>
+              </div>
+            </p>
+          </div>
+          <div ng-if="!view_ratings"><p>No Rating(s) yet !</p></div>
+      </div>
+
+      </div>
+    </ion-content>
+  </ion-modal-view>
+</script>
