@@ -1,12 +1,26 @@
 <ion-view cache-view="false" view-title="{{ navTitle }}">
+    <ion-nav-buttons side="left">
+      <button class="button button-icon icon ion-ios-search-strong" ng-click="search()"></button>
+    </ion-nav-buttons>
   	<ion-content has-bouncing="true" style="background:#e6ffe0;">
+      <ion-refresher
+        pulling-text="Pull to refresh..."
+        on-refresh="initializePerAccount()">
+      </ion-refresher>
   		<center>
 	        <p style="font-size:20px;margin-top:5%;color:#606468;">Lists of Personal Account(s)</p>
-	    </center><br>
+	    </center>
+      <div class="list list-inset"  ng-if="is_go_search">
+        <div class="item item-input">
+          <i class="icon ion-search placeholder-icon"></i>
+          <input type="text" placeholder="Search Lastname" ng-model="data.query" class="input" ng-keyup="searchAccount()" autofocus>
+          <i class="icon ion-ios-close-outline l_search_x " ng-click="clear()" ng-if="data.query.length >= 1" ></i>
+        </div>
+      </div>
 	    <div class="list" ng-show="perAccount != 0">
 		    <a class="item item-avatar" ng-repeat="list in perAccount track by $index" style="margin-left:10px;margin-right:10px;" ng-click="actionPersonal(list.account_id)">
 		      <img src="img/profile.png">
-		      <h2>{{ list.profile_firstname }} {{ list.profile_lastname }}</h2>
+		      <h2><b style="color:#2bb873;">{{ list.profile_firstname }} {{ list.profile_lastname }}</b></h2>
 		      <p>{{ list.profile_email }}</p>
 		    </a>
 		</div>
@@ -20,15 +34,11 @@
 
 <script id="viewCustInfo.html" type="text/ng-template">
   <ion-modal-view>
-    <div class="bar bar-header" style="background:#2bb873;">
+    <ion-header-bar style="background:#2bb873;">
       <h1 class="title" style="color:white">Personal Account Information</h1>
       <button class="button button-icon ion-ios-close-outline" style="color:white" ng-click="closeCustModal();"></button>
-    </div>
-    <ion-content class="modalLogin appoint" has-bouncing="true">
-
-      <center>
-        <p style="font-size:20px;color:#2bb873;margin:0 0 0 ;margin-top:5%;"><i class="icon ion-information-circled "></i> Information</p>
-      </center>
+    </ion-header-bar>
+    <ion-content class="modalLogin appoint" has-bouncing="true" delegate-handle="mainScroll">
       <div class="list card" >
 
         <div class="item item-avatar">

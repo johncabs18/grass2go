@@ -3,6 +3,10 @@
        <!--  <i ng-show="valid" class="icon ion-ios-plus-outline" style="font-size:34px !important;margin-right:4px;" ng-click="add_appointment(date);"></i> -->
     </ion-nav-buttons>
   	<ion-content has-bouncing="true" class="calendar">
+      <ion-refresher
+        pulling-text="Pull to refresh..."
+        on-refresh="initializeList()">
+      </ion-refresher>
       <div class="card" ng-repeat="event in events track by $index" ng-if="events != 0">
         <center>
           <p class="app_sched">Appointment Scheduled</p>
@@ -71,10 +75,43 @@
             <!-- <button class="button button-block button-balanced" >Call Company</button>
           </center> -->
         </div>
-        <div class="row" ng-if="event.status == 'pending' " style="margin-top:-10px">
+        <!-- <div class="row" ng-if="event.status == 'pending' " style="margin-top:-10px">
           <div class="col"><button class="button button-block button-balanced" ng-click="viewInvoice(event.appoint_id)">View Invoice</button></div>
           <div class="col"><button class="button button-block button-balanced" ng-click="viewInfo(event.appoint_id)">View Info</button></div>
+        </div> -->
+        <div class="list card"  ng-if="event.status == 'pending' " >
+
+          <div class="item item-avatar" style="background: #e6ffe0 !important;">
+            <img src="img/profile.png">
+            <h2><a ng-click="viewCust(event.profile_id)" style="color:#0E9BFF;text-decoration: underline;"><b>{{ event.appoint_fullname }}</b><a></h2>
+            <p>{{ event.appoint_address }}</p>
+          </div>
+          <div style="background-color:#000;height:1px;width:100%"></div>
+          <div class="item item-body" style="background: #e6ffe0 !important;">
+            <p> City: <b>{{ event.appoint_city }}</b><br>
+              State: <b>{{ event.appoint_state }}</b><br>
+              Zip Code: <b>{{ event.appoint_zip }}</b><br>
+              Prefer to be Contacted: <b>{{ event.appoint_pref_contacted }}</b>
+            </p><hr>
+            <p>
+              Phone: <b>{{ event.appoint_phone }}</b><br>
+              Fax: <b>{{ event.appoint_fax }}</b><br>
+              Email: <b>{{ event.appoint_email }}</b>
+            </p><hr>
+            <p>
+              Best time to call: <b>{{ event.appoint_time_call }}</b><br>
+              Yard Size: <b>{{ event.yard_size }} sq ft</b>
+            </p>
+          </div>
+
         </div>
+        <div class="row" ng-if="event.status == 'pending' ">
+            <div class="col">
+              <button class="button button-balanced button-block" ng-click="viewInvoice(event.appoint_id)">
+                View Invoice Information
+              </button>
+            </div>
+          </div>
         <!-- <div class="card" style="margin-top:-10px;" ng-if="event.status != 'declined' ">
           <div class="item item-divider" style="background-color:#2BB873;color:#fff" >
             Booking Information
@@ -144,13 +181,13 @@
 
 <script id="appointAgent_.html" type="text/ng-template">
   <ion-modal-view>
-    <div class="bar bar-header" style="background:#2bb873;">
+    <ion-header-bar style="background:#2bb873;">
       <h1 class="title" style="color:white">Set an Appointment</h1>
       <button class="button button-icon ion-ios-close-outline" style="color:white" ng-click="closeAppointAgentModal();"></button>
-    </div>
+    </ion-header-bar>
     <ion-content class="modalLogin appoint" has-bouncing="true">
       <form novalidate="novalidate" ng-submit="addAppointAgent(data)" name="data">
-        <div class="list" style="margin:10px;margin-top:20%;">
+        <div class="list" style="margin:10px;">
           <label class="item item-input item-select">
             <div class="input-label">
               Appoint Agent
@@ -197,14 +234,15 @@
 
 <script id="viewInvoiceInfo.html" type="text/ng-template">
   <ion-modal-view>
-    <div class="bar bar-header" style="background:#2bb873;">
+    <ion-header-bar style="background:#2bb873;">
       <h1 class="title" style="color:white">Invoice Information</h1>
       <button class="button button-icon ion-ios-close-outline" style="color:white" ng-click="closeInvoiceModal();"></button>
-    </div>
-    <ion-content class="modalLogin appoint" has-bouncing="true">
+    </ion-header-bar>
+    <ion-content class="modalLogin appoint" has-bouncing="true" delegate-handle="mainScroll">
+      <br>
       <div ng-repeat="inv in invoice track by $index"  >
         <center>
-          <p style="font-size:20px;color:#2bb873;margin-top:18%;">Invoice for <br>Lawn Service No:</p>
+          <p style="font-size:20px;color:#2bb873;">Invoice for <br>Lawn Service No:</p>
         </center>
         <center><p style="font-size:20px;color:#606468;"><b>{{ inv.appoint_id }}</b></p></center><br>
         <div style="margin-left:10px;margin-right:10px">
@@ -256,31 +294,32 @@
 
 <script id="rating.html" type="text/ng-template">
   <ion-modal-view>
-    <div class="bar bar-header" style="background:#2bb873;">
+    <ion-header-bar style="background:#2bb873;">
       <h1 class="title" style="color:white">Rate</h1>
-    </div>
+    </ion-header-bar>
     <ion-content class="modalLogin appoint" has-bouncing="true">
+      <br>
       <center>
-        <p style="font-size:25px;margin-top:25%;color:#606468;">Thank You!</p>
+        <p style="font-size:25px;color:#606468;">Thank You!</p>
         <p style="font-size:20px;color:#2bb873;margin:0 0 0 !important">Rate your customer</p>
       </center>
       <hr style="margin-right:20px !important;margin-left:20px !important;"><br>
       <center>
         <div style="margin-right:30px !important;margin-left:30px !important;">
           <button class="button button-clear" style="color:black;min-width:0px !important" ng-click="rating(1)">
-            <i ng-class="{'ion ion-ios-star assertive' : some_model[1] , 'ion ion-ios-star-outline' : !some_model[1]}" style="font-size:40px;" ></i>
+            <i ng-class="{'ion ion-ios-star assertive' : some_model[1] , 'ion ion-ios-star-outline' : !some_model[1]}" style="font-size:30px;" ></i>
           </button>
           <button class="button button-clear" style="color:black;min-width:0px !important" ng-click="rating(2)">
-            <i ng-class="{'ion ion-ios-star assertive' : some_model[2] , 'ion ion-ios-star-outline' : !some_model[2]}" style="font-size:40px;"></i>
+            <i ng-class="{'ion ion-ios-star assertive' : some_model[2] , 'ion ion-ios-star-outline' : !some_model[2]}" style="font-size:30px;"></i>
           </button>
           <button class="button button-clear" style="color:black;min-width:0px !important" ng-click="rating(3)">
-            <i ng-class="{'ion ion-ios-star assertive' : some_model[3] , 'ion ion-ios-star-outline' : !some_model[3]}" style="font-size:40px;"></i>
+            <i ng-class="{'ion ion-ios-star assertive' : some_model[3] , 'ion ion-ios-star-outline' : !some_model[3]}" style="font-size:30px;"></i>
           </button>
           <button class="button button-clear" style="color:black;min-width:0px !important" ng-click="rating(4)">
-            <i ng-class="{'ion ion-ios-star assertive' : some_model[4] , 'ion ion-ios-star-outline' : !some_model[4]}" style="font-size:40px;"></i>
+            <i ng-class="{'ion ion-ios-star assertive' : some_model[4] , 'ion ion-ios-star-outline' : !some_model[4]}" style="font-size:30px;"></i>
           </button>
           <button class="button button-clear" style="color:black;min-width:0px !important" ng-click="rating(5)">
-            <i ng-class="{'ion ion-ios-star assertive' : some_model[5] , 'ion ion-ios-star-outline' : !some_model[5]}" style="font-size:40px;"></i>
+            <i ng-class="{'ion ion-ios-star assertive' : some_model[5] , 'ion ion-ios-star-outline' : !some_model[5]}" style="font-size:30px;"></i>
           </button>
         </div>
       </center><br>
@@ -300,59 +339,36 @@
 
 <script id="info.html" type="text/ng-template">
   <ion-modal-view>
-    <div class="bar bar-header" style="background:#2bb873;">
-      <h1 class="title" style="color:white">Invoice Information</h1>
+    <ion-header-bar style="background:#2bb873;">
+      <h1 class="title" style="color:white">Booking Information</h1>
       <button class="button button-icon ion-ios-close-outline" style="color:white" ng-click="closeInfoModal();"></button>
-    </div>
+    </ion-header-bar>
     <ion-content class="modalLogin appoint" has-bouncing="true">
-      <div class="card" style="margin-top:20%;">
-        <div class="item item-divider" style="background-color:#2BB873;color:#fff">
-          Booking Information
+      <div class="list card">
+
+        <div class="item item-avatar">
+          <img src="img/profile.png">
+          <h2><a ng-click="viewCust(event_.profile_id)" style="color:#0E9BFF;text-decoration: underline;"><b>{{ event_.appoint_fullname }}</b><a></h2>
+          <p>{{ event_.appoint_address }}</p>
         </div>
-        <div class="row">
-          <div class="col"><p style="font-style:italic" >Customer Name</p></div>
-          <div class="col"><a ng-click="viewCust(event_.profile_id)" style="color:#0E9BFF;text-decoration: underline;font-size:20px;"><b>{{ event_.appoint_fullname }}</b><a></div>
+        <div style="background-color:#000;height:1px;width:100%"></div>
+        <div class="item item-body">
+          <p> City: <b>{{ event_.appoint_city }}</b><br>
+            State: <b>{{ event_.appoint_state }}</b><br>
+            Zip Code: <b>{{ event_.appoint_zip }}</b><br>
+            Prefer to be Contacted: <b>{{ event_.appoint_pref_contacted }}</b>
+          </p><hr>
+          <p>
+            Phone: <b>{{ event_.appoint_phone }}</b><br>
+            Fax: <b>{{ event_.appoint_fax }}</b><br>
+            Email: <b>{{ event_.appoint_email }}</b>
+          </p><hr>
+          <p>
+            Best time to call: <b>{{ event_.appoint_time_call }}</b><br>
+            Yard Size: <b>{{ event_.yard_size }} sq ft</b>
+          </p>
         </div>
-        <div class="row" style="margin-top:-20px;">
-          <div class="col"><p style="font-style:italic" >Address</p></div>
-          <div class="col"><b>{{ event_.appoint_address }}</b></div>
-        </div>
-        <div class="row"  style="margin-top:-20px;">
-          <div class="col"><p style="font-style:italic" >City</p></div>
-          <div class="col"><b>{{ event_.appoint_city }}</b></div>
-        </div>
-        <div class="row"  style="margin-top:-20px;">
-          <div class="col"><p style="font-style:italic" >State</p></div>
-          <div class="col"><b>{{ event_.appoint_state }}</b></div>
-        </div>
-        <div class="row"  style="margin-top:-20px;">
-          <div class="col"><p style="font-style:italic" >Zip Code</p></div>
-          <div class="col"><b>{{ event_.appoint_zip }}</b></div>
-        </div>
-        <div class="row"  style="margin-top:-20px;">
-          <div class="col"><p style="font-style:italic" >Prefer to be Contacted</p></div>
-          <div class="col"><b>via {{ event_.appoint_pref_contacted }}</b></div>
-        </div>
-        <div class="row"  style="margin-top:-20px;">
-          <div class="col"><p style="font-style:italic" >Phone</p></div>
-          <div class="col"><b>{{ event_.appoint_phone }}</b></div>
-        </div>
-        <div class="row"  style="margin-top:-20px;">
-          <div class="col"><p style="font-style:italic" >Fax</p></div>
-          <div class="col"><b>{{ event_.appoint_fax }}</b></div>
-        </div>
-        <div class="row"  style="margin-top:-20px;">
-          <div class="col"><p style="font-style:italic" >Email</p></div>
-          <div class="col"><b>{{ event_.appoint_email }}</b></div>
-        </div>
-        <div class="row"  style="margin-top:-20px;">
-          <div class="col"><p style="font-style:italic" >Best time to call</p></div>
-          <div class="col"><b>{{ event_.appoint_time_call }}</b></div>
-        </div>
-        <div class="row"  style="margin-top:-20px;">
-          <div class="col"><p style="font-style:italic" >Yard Size</p></div>
-          <div class="col"><b>{{ event_.yard_size }} sq ft</b></div>
-        </div>
+
       </div>
     </ion-content>
   </ion-modal-view>
@@ -361,15 +377,11 @@
 
 <script id="viewCustInfo.html" type="text/ng-template">
   <ion-modal-view>
-    <div class="bar bar-header" style="background:#2bb873;">
+    <ion-header-bar style="background:#2bb873;">
       <h1 class="title" style="color:white">Customer Information</h1>
       <button class="button button-icon ion-ios-close-outline" style="color:white" ng-click="closeCustModal();"></button>
-    </div>
-    <ion-content class="modalLogin appoint" has-bouncing="true">
-
-      <center>
-        <p style="font-size:20px;color:#2bb873;margin:0 0 0 ;margin-top:5%;"><i class="icon ion-information-circled "></i> Information</p>
-      </center>
+    </ion-header-bar>
+    <ion-content class="modalLogin appoint" has-bouncing="true" delegate-handle="mainScroll">
       <div class="list card" >
 
         <div class="item item-avatar">

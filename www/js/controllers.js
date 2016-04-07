@@ -14,6 +14,8 @@ app.run(function(){/*some code here*/})
   $scope.name = isLogged.profile_firstname;
   $scope.userlog = isLogged.user;
   $scope.company_name = isLogged.company_name;
+  var isIOS = ionic.Platform.isIOS();
+  var isAndroid = ionic.Platform.isAndroid();
 
   /* initialize menu */
     $rootScope.initializeMenu = function()
@@ -71,9 +73,18 @@ app.run(function(){/*some code here*/})
 
   $scope.logout = function()
   {
-    $ionicLoading.show({
-      template: 'Logging Out <br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-    });
+    if(isAndroid)
+    {
+      $ionicLoading.show({
+        template: 'Logging Out <br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+      });
+    }
+    else
+    {
+      $ionicLoading.show({
+        template: 'Logging Out <br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+      });
+    }
     $cordovaLocalNotification.cancel(1).then(function (result) {
       // ...
     });
@@ -104,6 +115,8 @@ app.run(function(){/*some code here*/})
     var backbutton=0;
     var clicked = false;
     $rootScope.backButtonPressedOnceToExit = false;
+    var isIOS = ionic.Platform.isIOS();
+    var isAndroid = ionic.Platform.isAndroid();
   // Variables Area ENDS
 
   /* back button of device not allowed */
@@ -118,9 +131,18 @@ app.run(function(){/*some code here*/})
     {
       if(loginCredentials.$valid)
       {
-        $ionicLoading.show({
-          template: 'Logging In <br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-        });
+        if(isAndroid)
+        {
+          $ionicLoading.show({
+            template: 'Logging In <br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+          });
+        }
+        else
+        {
+          $ionicLoading.show({
+            template: 'Logging In <br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+          });
+        }
         var obj    = new Object();
         obj.method = 'POST';
         obj.url    = $rootScope.baseURL + "?func=userLogin ";
@@ -315,6 +337,9 @@ app.run(function(){/*some code here*/})
   
   $scope.user = [];
   var clicked = false;
+  var isIOS = ionic.Platform.isIOS();
+  var isAndroid = ionic.Platform.isAndroid();
+
   /* function for initialize main*/
     $rootScope.initializeFPass = function()
     {
@@ -349,9 +374,18 @@ app.run(function(){/*some code here*/})
     {
       if(email.$valid)
       {
-        $ionicLoading.show({
-          template: 'Sending Password to your email<br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-        });
+        if(isAndroid)
+        {
+          $ionicLoading.show({
+            template: 'Sending Password to your email<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+          });
+        }
+        else
+        {
+          $ionicLoading.show({
+            template: 'Sending Password to your email<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+          });
+        }
         var obj    = new Object();
         obj.method = 'POST';
         obj.url    = $rootScope.baseURL + "email.php";
@@ -403,6 +437,8 @@ app.run(function(){/*some code here*/})
   
   $scope.property = [];
   $rootScope.backButtonPressedOnceToExit = false; 
+  var isIOS = ionic.Platform.isIOS();
+  var isAndroid = ionic.Platform.isAndroid();
   /* function for initialize main*/
     $rootScope.initializePersonalAccount = function()
     {
@@ -464,12 +500,24 @@ app.run(function(){/*some code here*/})
   $scope.business = [];
   $rootScope.backButtonPressedOnceToExit = false; 
   $scope.view_map = false; 
+  var isIOS = ionic.Platform.isIOS();
+  var isAndroid = ionic.Platform.isAndroid();
   /* function for initialize main*/
     $rootScope.initializeBusinessAccount = function()
     {
-      $ionicLoading.show({
-        template: 'Fetching your location <br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-      });
+      
+      if(isAndroid)
+      {
+        $ionicLoading.show({
+          template: 'Fetching your location <br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+        });
+      }
+      else
+      {
+        $ionicLoading.show({
+          template: 'Fetching your location <br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+        });
+      }
       var posOptions = {timeout: 10000, enableHighAccuracy: false};
       $cordovaGeolocation.getCurrentPosition(posOptions)
         .then(function (position) {
@@ -511,9 +559,18 @@ app.run(function(){/*some code here*/})
     {
       if(data.$valid)
       {
-        $ionicLoading.show({
-          template: '<ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-        });
+        if(isAndroid)
+        {
+          $ionicLoading.show({
+            template: '<ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+          });
+        }
+        else
+        {
+          $ionicLoading.show({
+            template: '<ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+          });
+        }
         var obj    = new Object();
         obj.method = 'POST';
         obj.url    = $rootScope.baseURL + "?func=addBusinessAccount";
@@ -577,6 +634,8 @@ app.run(function(){/*some code here*/})
   $rootScope.backButtonPressedOnceToExit = false; 
   var latitude = $rootScope.latLong[0];
   var longitude = $rootScope.latLong[1];
+  var isIOS = ionic.Platform.isIOS();
+  var isAndroid = ionic.Platform.isAndroid();
 
   /* map */
     function initialize() {
@@ -614,6 +673,8 @@ app.run(function(){/*some code here*/})
   
   $scope.card = []; 
   $rootScope.backButtonPressedOnceToExit = false; 
+  var isIOS = ionic.Platform.isIOS();
+  var isAndroid = ionic.Platform.isAndroid();
   /* function for initialize main*/
     $rootScope.initializePayment = function()
     {
@@ -674,6 +735,8 @@ app.run(function(){/*some code here*/})
   var card_startDate = $rootScope.card_startDate;
   var card_endDate = $rootScope.card_endDate;
   var card_issueNumber = $rootScope.card_issueNumber;
+  var isIOS = ionic.Platform.isIOS();
+  var isAndroid = ionic.Platform.isAndroid();
 
   /* function for initialize main*/
     $rootScope.initializeProfile = function()
@@ -687,9 +750,19 @@ app.run(function(){/*some code here*/})
     {
       if(data.$valid)
       {
-        $ionicLoading.show({
-          template: 'Registering this Account<br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-        });
+        
+        if(isAndroid)
+        {
+          $ionicLoading.show({
+            template: 'Registering this Account<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+          });
+        }
+        else
+        {
+          $ionicLoading.show({
+            template: 'Registering this Account<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+          });
+        }
         var obj    = new Object();
         obj.method = 'POST';
         obj.url    = $rootScope.baseURL + "?func=addPersonalAccount";
@@ -758,11 +831,21 @@ app.run(function(){/*some code here*/})
   
   $rootScope.backButtonPressedOnceToExit = false; 
   var isLogged = Auth.FETCH_DATA('userid');
+  var isIOS = ionic.Platform.isIOS();
+  var isAndroid = ionic.Platform.isAndroid();
 
   /* function for initialize main*/
     $rootScope.initializeMain = function()
     {
-      $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="margin-left:40%;height: 40px;margin-top: 2px;"/>';
+      if(isAndroid)
+      {
+        $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="margin-left:40%;height: 40px;margin-top: 2px;"/>';
+      }
+      else
+      {
+        $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="height: 40px;margin-top: 2px;"/>';
+      }
+      
       $('.ionic-fullcalendar')
       .fullCalendar(
         {
@@ -858,10 +941,19 @@ app.run(function(){/*some code here*/})
   /* load events */
     $scope.LOAD_CALENDAR_EVENTS = function(start, end, timezone, callback)
     {
-      $ionicLoading.show({
-        template: 'Fetching Data<br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-      });
-
+      
+      if(isAndroid)
+      {
+        $ionicLoading.show({
+          template: 'Fetching Data<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+        });
+      }
+      else
+      {
+        $ionicLoading.show({
+          template: 'Fetching Data<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+        });
+      }
       var obj    = new Object();
       obj.method = 'POST';
       obj.url    = $rootScope.baseURL + "?func=fetchEvents";
@@ -874,6 +966,7 @@ app.run(function(){/*some code here*/})
                                   var events               = [];
                                   var color                = "";
                                   var events_data          = success.data[0];
+                                  $scope.$broadcast('scroll.refreshComplete');
                                   if(events_data != null)
                                   {       
                                     for(var i = 0; i<events_data.length; i++)
@@ -919,11 +1012,6 @@ app.run(function(){/*some code here*/})
   /* Check if login */
     $scope.isLogged = function()
     {
-      $ionicPlatform.ready(function() {
-        setTimeout(function() {
-          $cordovaSplashscreen.hide();
-        }, 3000);
-      });
       var redirect = true;
       if($rootScope.isLogged)
       {
@@ -931,14 +1019,23 @@ app.run(function(){/*some code here*/})
         {
           redirect = true;
           $rootScope.initializeMain();
+          $ionicPlatform.ready(function() {
+            $cordovaSplashscreen.hide();
+          });
         }
         else if(isLogged.user == 'business')
         {
           window.location.href = "#/menu/calendarBusiness";
+          $ionicPlatform.ready(function() {
+            $cordovaSplashscreen.hide();
+          });
         }
         else if(isLogged.user == 'admin')
         {
           window.location.href = "#/menu/dashboard";
+          $ionicPlatform.ready(function() {
+            $cordovaSplashscreen.hide();
+          });
         }
         else
         {
@@ -951,6 +1048,9 @@ app.run(function(){/*some code here*/})
             }
           });
           window.location.href = '#/login';
+          $ionicPlatform.ready(function() {
+            $cordovaSplashscreen.hide();
+          });
         }
       } 
       else
@@ -960,14 +1060,23 @@ app.run(function(){/*some code here*/})
         {
           redirect = isLogged.remember ? true : false;
           $rootScope.initializeMain();
+          $ionicPlatform.ready(function() {
+            $cordovaSplashscreen.hide();
+          });
         }
         else if(isLogged.user == 'business')
         {
           window.location.href = "#/menu/calendarBusiness";
+          $ionicPlatform.ready(function() {
+            $cordovaSplashscreen.hide();
+          });
         }
         else if(isLogged.user == 'admin')
         {
           window.location.href = "#/menu/dashboard";
+          $ionicPlatform.ready(function() {
+            $cordovaSplashscreen.hide();
+          });
         }
         else
         {
@@ -980,6 +1089,9 @@ app.run(function(){/*some code here*/})
             }
           });
           window.location.href = '#/login';
+          $ionicPlatform.ready(function() {
+            $cordovaSplashscreen.hide();
+          });
         }
       }
       if(!redirect)
@@ -994,6 +1106,9 @@ app.run(function(){/*some code here*/})
           }
         });
         window.location.href = '#/login';
+          $ionicPlatform.ready(function() {
+            $cordovaSplashscreen.hide();
+          });
       }
     }
   /* /. */
@@ -1024,10 +1139,20 @@ app.run(function(){/*some code here*/})
   $rootScope.backButtonPressedOnceToExit = false;
   var isLogged = Auth.FETCH_DATA('userid'); 
 
+  var isIOS = ionic.Platform.isIOS();
+  var isAndroid = ionic.Platform.isAndroid();
+
   /* function for initialize main*/
     $rootScope.initializeCalendarBusiness = function()
     {
-      $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="margin-left:40%;height: 40px;margin-top: 2px;"/>';
+      if(isAndroid)
+      {
+        $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="margin-left:40%;height: 40px;margin-top: 2px;"/>';
+      }
+      else
+      {
+        $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="height: 40px;margin-top: 2px;"/>';
+      }
       $('.ionic-fullcalendar')
       .fullCalendar(
         {
@@ -1113,10 +1238,19 @@ app.run(function(){/*some code here*/})
   /* load events */
     $scope.LOAD_CALENDAR_EVENTS = function(start, end, timezone, callback)
     {
-      $ionicLoading.show({
-        template: 'Fetching Data <br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-      });
-
+      
+      if(isAndroid)
+      {
+        $ionicLoading.show({
+          template: 'Fetching Data <br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+        });
+      }
+      else
+      {
+        $ionicLoading.show({
+          template: 'Fetching Data <br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+        });
+      }
       var obj    = new Object();
       obj.method = 'POST';
       obj.url    = $rootScope.baseURL + "?func=fetchProviderEvents";
@@ -1128,6 +1262,8 @@ app.run(function(){/*some code here*/})
                                   var events               = [];
                                   var color                = "";
                                   var events_data          = success.data[0];
+
+                                  $scope.$broadcast('scroll.refreshComplete');
                                   if(events_data != null)
                                   {       
                                     for(var i = 0; i<events_data.length; i++)
@@ -1258,8 +1394,8 @@ app.run(function(){/*some code here*/})
   /* /. */
 }])
 
-.controller('calendarListCtrl',['$scope','$rootScope','$ionicPlatform','$ionicHistory','$ionicLoading','Auth', '$ionicModal', '$ionicPopup',
-                function($scope,  $rootScope,  $ionicPlatform,  $ionicHistory,  $ionicLoading,  Auth,  $ionicModal, $ionicPopup ) 
+.controller('calendarListCtrl',['$scope','$rootScope','$ionicPlatform','$ionicHistory','$ionicLoading','Auth', '$ionicModal', '$ionicPopup', '$ionicScrollDelegate',
+                function($scope,  $rootScope,  $ionicPlatform,  $ionicHistory,  $ionicLoading,  Auth,  $ionicModal, $ionicPopup, $ionicScrollDelegate ) 
 {
   
   $rootScope.backButtonPressedOnceToExit = false; 
@@ -1273,29 +1409,29 @@ app.run(function(){/*some code here*/})
   var total = 0;
   $scope.company = [];
   $scope.agent_info = [];
-
-  $scope.items = [{
-        val: "house",
-        title: "Houses"
-    }, {
-        val: "apartment",
-        title: "Apartments"
-    }, {
-        val: "ground",
-        title: "Grounds"
-    }];
+  var isIOS = ionic.Platform.isIOS();
+  var isAndroid = ionic.Platform.isAndroid();
 
   /* function for initialize main*/
     $rootScope.initializeList = function()
     {
-      $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="margin-left:40%;height: 40px;margin-top: 2px;"/>';
+      if(isAndroid)
+      {
+        $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="margin-left:40%;height: 40px;margin-top: 2px;"/>';
+      }
+      else
+      {
+        $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="height: 40px;margin-top: 2px;"/>';
+      }
       $scope.date = $rootScope.datePick;
       var d = new Date();
       var n = moment(d).format('MM-DD-YYYY');
-
-      $scope.appoint.date =moment($scope.date).format('MMM D, YYYY');
-      $scope.date_pick =moment($scope.date).format('x');
-      $scope.date_today =moment(n).format('x');
+      var ymd = moment(d).format('YYYY-MM-DD');
+      var splitDate = $scope.date.split('-');
+      var newDate = splitDate[2]+'-'+splitDate[0]+'-'+splitDate[1];
+      $scope.appoint.date =moment(newDate).format('MMM D, YYYY');
+      $scope.date_pick =moment(newDate).format('x');
+      $scope.date_today =moment(ymd).format('x');
 
       if($scope.date_pick >= $scope.date_today)
       {
@@ -1331,21 +1467,31 @@ app.run(function(){/*some code here*/})
           // timePickerCallback(val);
         }
       };
-      $scope.title = moment($scope.date).format('MMM D, YYYY');
-      $ionicLoading.show({
-        template: 'Fetching appointments on this date<br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-      });
-
+      $scope.title = moment(newDate).format('MMM D, YYYY');
+      
+      if(isAndroid)
+      {
+        $ionicLoading.show({
+          template: 'Fetching appointments on this date<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+        });
+      }
+      else
+      {
+        $ionicLoading.show({
+          template: 'Fetching appointments on this date<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+        });
+      }
       var obj    = new Object();
       obj.method = 'POST';
       obj.url    = $rootScope.baseURL + "?func=fetchEventsByDay";
       obj.data   = new FormData();
       obj.data.append('profile_id',isLogged.account_id);
-      obj.data.append('appoint_pref_date',moment($scope.date).format('YYYY-MM-DD'));
+      obj.data.append('appoint_pref_date',newDate);
       obj.data.append('loginSecret','0ff9346b4edc8dc033bff30762bc3c15d465d3f');
       obj.params = {};
       Auth.REQUEST(obj).then(function(success) {
                                 $scope.events = success.data[0];
+                                $scope.$broadcast('scroll.refreshComplete');
                                 for(var i = 0; i < $scope.events.length ; i++)
                                 {
                                   if(i != $scope.events.length)
@@ -1428,6 +1574,7 @@ app.run(function(){/*some code here*/})
     $scope.add_appointment = function(date)
     {
       // $rootScope.showToast(date);
+      $ionicScrollDelegate.$getByHandle('mainScroll').scrollTop();
       $scope.addEventForm.show();
     }
       // -------------- Modal ---------------
@@ -1452,9 +1599,19 @@ app.run(function(){/*some code here*/})
     {
       if(data.$valid)
       {
-        $ionicLoading.show({
-          template: '<ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-        });
+        
+        if(isAndroid)
+        {
+          $ionicLoading.show({
+            template: '<ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+          });
+        }
+        else
+        {
+          $ionicLoading.show({
+            template: '<ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+          });
+        }
         var obj    = new Object();
           obj.method = 'POST';
           obj.url    = $rootScope.baseURL + "?func=addAppointment";
@@ -1510,9 +1667,19 @@ app.run(function(){/*some code here*/})
 
       confirmPopup.then(function(res) {
         if(res) {
-          $ionicLoading.show({
-            template: 'Cancelling appointment<br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-          });
+          
+          if(isAndroid)
+          {
+            $ionicLoading.show({
+              template: 'Cancelling appointment<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+            });
+          }
+          else
+          {
+            $ionicLoading.show({
+              template: 'Cancelling appointment<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+            });
+          }
           var obj    = new Object();
             obj.method = 'POST';
             obj.url    = $rootScope.baseURL + "?func=cancelAppointment";
@@ -1551,9 +1718,19 @@ app.run(function(){/*some code here*/})
   /* view invoice */
     $scope.viewInvoice = function(id)
     {
-      $ionicLoading.show({
-        template: 'Fetching Invoice <br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-      });
+      
+      if(isAndroid)
+      {
+        $ionicLoading.show({
+          template: 'Fetching Invoice <br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+        });
+      }
+      else
+      {
+        $ionicLoading.show({
+          template: 'Fetching Invoice <br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+        });
+      }
       var obj    = new Object();
       obj.method = 'POST';
       obj.url    = $rootScope.baseURL + "?func=viewInvoice";
@@ -1565,11 +1742,13 @@ app.run(function(){/*some code here*/})
                                 if(success.data == 0)
                                 {
                                   $rootScope.showToast('Error');
+                                  $ionicScrollDelegate.$getByHandle('mainScroll').scrollTop();
                                   $ionicLoading.hide();
                                 }
                                 else
                                 {
                                   // $ionicLoading.hide();
+                                  $ionicScrollDelegate.$getByHandle('mainScroll').scrollTop();
                                   $scope.invoice = success.data;
                                   var obj    = new Object();
                                   obj.method = 'POST';
@@ -1685,6 +1864,149 @@ app.run(function(){/*some code here*/})
     }
   /* /. */
 
+  /* view */
+    $scope.viewAcc = function(id)
+    {
+      $ionicScrollDelegate.$getByHandle('mainScroll').scrollTop();
+      var tmp1 = 0;
+      var tmp2 = 0;
+      var tmp3 = 0;
+      var tmp4 = 0;
+      var tmp5 = 0;
+      var tmp_tot = 0;
+
+      $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="margin-left:40%;height: 40px;margin-top: 2px;"/>';
+      
+      if(isAndroid)
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+        });
+      }
+      else
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+        });
+      }
+      $scope.rating = {};
+      $scope.rate = {};
+      $scope.rating.max = 5;
+
+      var obj    = new Object();
+      obj.method = 'POST';
+      obj.url    = $rootScope.baseURL + "?func=getBusinessAccount";
+      obj.data   = new FormData();
+      obj.data.append('provider_id',id);
+      obj.data.append('loginSecret','0ff9346b4edc8dc033bff30762bc3c15d465d3f');
+      obj.params = {};
+      Auth.REQUEST(obj).then(function(success) {
+                              $scope.userInfo = success.data[0];
+                              var location = [parseFloat(success.data[0].latitude),parseFloat(success.data[0].longitude)];
+                              $scope.location = location;
+                              $scope.view_businesss.show();
+
+                              var obj    = new Object();
+                              obj.method = 'POST';
+                              obj.url    = $rootScope.baseURL + "?func=getServices";
+                              obj.data   = new FormData();
+                              obj.data.append('provider_id',id);
+                              obj.data.append('loginSecret','0ff9346b4edc8dc033bff30762bc3c15d465d3f');
+                              obj.params = {};
+                              Auth.REQUEST(obj).then(function(success) {
+                                console.log(success.data[0]);
+                                                        $scope.services = success.data[0];
+                                                        $ionicLoading.hide();
+                                                    },
+                                                    function(error) {
+                                                        $ionicLoading.hide();
+                                                        $rootScope.showToast('Failed !');
+                                                      }
+                                                    );
+                              // var obj    = new Object();
+                              // obj.method = 'POST';
+                              // obj.url    = $rootScope.baseURL + "?func=getProviderReview";
+                              // obj.data   = new FormData();
+                              // obj.data.append('provider_id',isLogged.provider_id);
+                              // obj.data.append('loginSecret','0ff9346b4edc8dc033bff30762bc3c15d465d3f');
+                              // obj.params = {};
+                              // Auth.REQUEST(obj).then(function(success) {
+                              //                         if (success.data != 0)
+                              //                         {
+                              //                           $scope.view_ratings = true;
+                              //                           for(var i = 0 ; i < success.data.length ; i++)
+                              //                           {
+                              //                             tmp_tot += parseInt(success.data[i].star_rating);
+                              //                             if(success.data[i].star_rating == 1)
+                              //                             {
+                              //                               tmp1 += parseInt(success.data[i].star_rating);
+                              //                             }
+                              //                             else if(success.data[i].star_rating == 2)
+                              //                             {
+                              //                               tmp2 += parseInt(success.data[i].star_rating);
+                              //                             }
+                              //                             else if(success.data[i].star_rating == 3)
+                              //                             {
+                              //                               tmp3 += parseInt(success.data[i].star_rating);
+                              //                             }
+                              //                             else if(success.data[i].star_rating == 4)
+                              //                             {
+                              //                               tmp4 += parseInt(success.data[i].star_rating);
+                              //                             }
+                              //                             else if(success.data[i].star_rating == 5)
+                              //                             {
+                              //                               tmp5 += parseInt(success.data[i].star_rating);
+                              //                             }
+                              //                           }
+                                                        
+                              //                           var avg_ = (tmp1*1) + (tmp2*2) + (tmp3*3) + (tmp4*4) + (tmp5*5);
+                              //                           $scope.avg = parseInt(avg_) / parseInt(tmp_tot);
+                              //                           $scope.tot = tmp_tot;
+                              //                           $scope.rating.rate = $scope.avg;
+                              //                           $scope.rate.one =  (parseInt(tmp1) / parseInt(tmp_tot)) * 100;
+                              //                           $scope.rate.two =  (parseInt(tmp2) / parseInt(tmp_tot)) * 100;
+                              //                           $scope.rate.three =  (parseInt(tmp3) / parseInt(tmp_tot)) * 100;
+                              //                           $scope.rate.four =  (parseInt(tmp4) / parseInt(tmp_tot)) * 100;
+                              //                           $scope.rate.five =  (parseInt(tmp5) / parseInt(tmp_tot)) * 100;
+                              //                           $ionicLoading.hide();
+                              //                         }
+                              //                         else
+                              //                         {
+
+                              //                           $scope.view_ratings = false;
+                              //                           $ionicLoading.hide();
+                              //                         }
+                              //                       },
+                              //                       function(error) {
+                              //                           console.log(error);
+                              //                           $ionicLoading.hide();
+                              //                           $rootScope.showToast('Failed !');
+                              //                         }
+                              //                       );
+                            },
+                            function(error) {
+                                console.log(error);
+                                $ionicLoading.hide();
+                                $rootScope.showToast('Failed !');
+                              }
+                            );
+    }
+    // -------------- Modal ---------------
+      $ionicModal.fromTemplateUrl('viewBusinessInfo.html', {
+        scope: $scope,
+        animation: 'slide-in-up',
+        hardwareBackButtonClose: false
+      }).then(function(modal) {
+        $scope.view_businesss = modal;
+      });
+    // -------------- End Modal ---------------
+
+    /* Close Modal */
+      $scope.closeBusinesssModal = function() {
+        $scope.view_businesss.hide();
+      };
+  /* /. */
+
   /* Initialization */
       $rootScope.initializeList();
   /* /. */
@@ -1717,33 +2039,55 @@ app.run(function(){/*some code here*/})
   $scope.error = false;
   $scope.company = [];
   $scope.agent_info = [];
+  var isIOS = ionic.Platform.isIOS();
+  var isAndroid = ionic.Platform.isAndroid();
 
   /* function for initialize main*/
     $rootScope.initializeList = function()
     {
-      $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="margin-left:40%;height: 40px;margin-top: 2px;"/>';
+      if(isAndroid)
+      {
+        $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="margin-left:40%;height: 40px;margin-top: 2px;"/>';
+      }
+      else
+      {
+        $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="height: 40px;margin-top: 2px;"/>';
+      }
       $scope.date = $rootScope.datePick;
       var d = new Date();
       var n = moment(d).format('MM-DD-YYYY');
+      var ymd = moment(d).format('YYYY-MM-DD');
+      var splitDate = $scope.date.split('-');
+      var newDate = splitDate[2]+'-'+splitDate[0]+'-'+splitDate[1];
 
-      $scope.appoint.date =moment($scope.date).format('MMM D, YYYY');
-      $scope.date_pick =moment($scope.date).format('x');
-      $scope.date_today =moment(n).format('x');
+      $scope.appoint.date =moment(newDate).format('MMM D, YYYY');
+      $scope.date_pick =moment(newDate).format('x');
+      $scope.date_today =moment(ymd).format('x');
 
       if($scope.date_pick >= $scope.date_today)
       {
         $scope.valid = true;
       }
-      $scope.title = moment($scope.date).format('MMM D, YYYY');
-      $ionicLoading.show({
-        template: 'Fetching appointments on this date<br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-      });
+      $scope.title = moment(newDate).format('MMM D, YYYY');
+      
+      if(isAndroid)
+      {
+        $ionicLoading.show({
+          template: 'Fetching appointments on this date<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+        });
+      }
+      else
+      {
+        $ionicLoading.show({
+          template: 'Fetching appointments on this date<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+        });
+      }
       var obj    = new Object();
       obj.method = 'POST';
       obj.url    = $rootScope.baseURL + "?func=fetchProviderEventsByDay";
       obj.data   = new FormData();
       obj.data.append('provider_id',isLogged.provider_id);
-      obj.data.append('appoint_pref_date',moment($scope.date).format('YYYY-MM-DD'));
+      obj.data.append('appoint_pref_date',moment(newDate).format('YYYY-MM-DD'));
       obj.data.append('loginSecret','0ff9346b4edc8dc033bff30762bc3c15d465d3f');
       obj.params = {};
       Auth.REQUEST(obj).then(function(success) {
@@ -1756,7 +2100,6 @@ app.run(function(){/*some code here*/})
                                     var appointId = $scope.events[i].appoint_id;
                                     $scope.getCompany(success.data[0][i].provider_id,i);
                                     $scope.getAgent(appointId,i);
-                                    $ionicLoading.hide();
                                     // var obj    = new Object();
                                     // obj.method = 'POST';
                                     // obj.url    = $rootScope.baseURL + "?func=getProfile";
@@ -1800,7 +2143,7 @@ app.run(function(){/*some code here*/})
                             function(error) {
                                 console.log(error);
                                 $ionicLoading.hide();
-                                $rootScope.showToast('Failed !');
+                                $rootScope.showToast('Failed ! Pull down to refresh !');
                               }
                             );
     }
@@ -1821,6 +2164,9 @@ app.run(function(){/*some code here*/})
                                   $ionicLoading.hide();
                               },
                               function(error) { 
+                                console.log(error);
+                                $ionicLoading.hide();
+                                $rootScope.showToast('Failed ! Pull down to refresh !');
                               }
                             );
     }
@@ -1839,9 +2185,13 @@ app.run(function(){/*some code here*/})
       Auth.REQUEST(obj).then(function(success) {
                                   $scope.agent_info[index] = success.data[0][0];
                                   $scope.baseURL = $rootScope.baseURL;
+                                  $scope.$broadcast('scroll.refreshComplete');
                                   $ionicLoading.hide();
                               },
                               function(error) { 
+                                console.log(error);
+                                $ionicLoading.hide();
+                                $rootScope.showToast('Failed ! Pull down to refresh !');
                               }
                             );
     }
@@ -1893,9 +2243,19 @@ app.run(function(){/*some code here*/})
   /* view info */
     $scope.viewInfo = function(id)
     {
-      $ionicLoading.show({
-        template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-      });
+      
+      if(isAndroid)
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+        });
+      }
+      else
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+        });
+      }
       var obj    = new Object();
       obj.method = 'POST';
       obj.url    = $rootScope.baseURL + "?func=getAppointment";
@@ -1905,6 +2265,7 @@ app.run(function(){/*some code here*/})
       obj.params = {};
       Auth.REQUEST(obj).then(function(success) {
                                 $scope.event_ = success.data[0];
+                                $ionicScrollDelegate.$getByHandle('mainScroll').scrollTop();
                                 $scope.view_info.show();
                                 $ionicLoading.hide();
                               },
@@ -1956,9 +2317,19 @@ app.run(function(){/*some code here*/})
           confirmPopup.then(function(res) {
           if(res) {
             status = "declined";
-            $ionicLoading.show({
-              template: 'Declining appointment<br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-            });
+            
+            if(isAndroid)
+            {
+              $ionicLoading.show({
+                template: 'Declining appointment<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+              });
+            }
+            else
+            {
+              $ionicLoading.show({
+                template: 'Declining appointment<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+              });
+            }
             $scope.approved(id,status);
           } else {
             console.log('You are not sure');
@@ -1968,9 +2339,19 @@ app.run(function(){/*some code here*/})
       else
       {
         status = "approved";
-        $ionicLoading.show({
-          template: 'Fetching available agents<br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-        });
+        
+        if(isAndroid)
+        {
+          $ionicLoading.show({
+            template: 'Fetching available agents<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+          });
+        }
+        else
+        {
+          $ionicLoading.show({
+            template: 'Fetching available agents<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+          });
+        }
         var obj    = new Object();
         obj.method = 'POST';
         obj.url    = $rootScope.baseURL + "?func=getAgentByProvider";
@@ -2034,9 +2415,19 @@ app.run(function(){/*some code here*/})
         if($scope.appoint.agent != 0)
         {
           $scope.error = false;
-          $ionicLoading.show({
-            template: 'Approving appointment<br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-          });
+          
+          if(isAndroid)
+          {
+            $ionicLoading.show({
+              template: 'Approving appointment<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+            });
+          }
+          else
+          {
+            $ionicLoading.show({
+              template: 'Approving appointment<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+            });
+          }
           var obj    = new Object();
           obj.method = 'POST';
           obj.url    = $rootScope.baseURL + "?func=addAppointAgent";
@@ -2182,9 +2573,19 @@ app.run(function(){/*some code here*/})
   /* view invoice */
     $scope.viewInvoice = function(id)
     {
-      $ionicLoading.show({
-        template: 'Fetching Invoice <br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-      });
+      
+      if(isAndroid)
+      {
+        $ionicLoading.show({
+          template: 'Fetching Invoice <br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+        });
+      }
+      else
+      {
+        $ionicLoading.show({
+          template: 'Fetching Invoice <br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+        });
+      }
       var obj    = new Object();
       obj.method = 'POST';
       obj.url    = $rootScope.baseURL + "?func=viewInvoice";
@@ -2196,6 +2597,7 @@ app.run(function(){/*some code here*/})
                                 if(success.data == 0)
                                 {
                                   $rootScope.showToast('Error');
+                                  $ionicScrollDelegate.$getByHandle('mainScroll').scrollTop();
                                   $ionicLoading.hide();
                                 }
                                 else
@@ -2224,6 +2626,7 @@ app.run(function(){/*some code here*/})
                                                                                       if(y == success1.data.length)
                                                                                       {
                                                                                         $scope.servicetotal = total;
+                                                                                        $ionicScrollDelegate.$getByHandle('mainScroll').scrollTop();
                                                                                         $scope.viewInvoiceInfo.show();
                                                                                         $ionicLoading.hide();
                                                                                       }
@@ -2328,9 +2731,19 @@ app.run(function(){/*some code here*/})
   /* submit review */
     $scope.submitReview = function(id)
     {
-      $ionicLoading.show({
-        template: 'Submitting ... <br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-      });
+      
+      if(isAndroid)
+      {
+        $ionicLoading.show({
+          template: 'Submitting ... <br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+        });
+      }
+      else
+      {
+        $ionicLoading.show({
+          template: 'Submitting ... <br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+        });
+      }
       var obj    = new Object();
       obj.method = 'POST';
       obj.url    = $rootScope.baseURL + "?func=addCustReview";
@@ -2374,9 +2787,19 @@ app.run(function(){/*some code here*/})
       var tmp5 = 0;
       var tmp_tot = 0;
 
-      $ionicLoading.show({
-        template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-      });
+      
+      if(isAndroid)
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+        });
+      }
+      else
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+        });
+      }
       $scope.rating = {};
       $scope.rate = {};
       $scope.rating.max = 5;
@@ -2389,6 +2812,7 @@ app.run(function(){/*some code here*/})
       obj.data.append('loginSecret','0ff9346b4edc8dc033bff30762bc3c15d465d3f');
       obj.params = {};
       Auth.REQUEST(obj).then(function(success) {
+                              $ionicScrollDelegate.$getByHandle('mainScroll').scrollTop();
                               $scope.userInfo = success.data[0];
                               $scope.view_cust.show();
                               var obj    = new Object();
@@ -2436,7 +2860,7 @@ app.run(function(){/*some code here*/})
                                                         $scope.rate.two =  (parseInt(tmp2) / parseInt(tmp_tot)) * 100;
                                                         $scope.rate.three =  (parseInt(tmp3) / parseInt(tmp_tot)) * 100;
                                                         $scope.rate.four =  (parseInt(tmp4) / parseInt(tmp_tot)) * 100;
-                                                        $scope.rate.five =  (parseInt(tmp5) / parseInt(tmp_tot)) * 100;
+                                                        $scope.rate.five =  (parseInt(tmp5) / parseInt(tmp_tot)) * 100; 
                                                         $ionicLoading.hide();
                                                       }
                                                       else
@@ -2497,6 +2921,8 @@ app.run(function(){/*some code here*/})
   var isLogged = Auth.FETCH_DATA('userid');
   $scope.profile = [];
   $scope.view_ratings = false;
+  var isIOS = ionic.Platform.isIOS();
+  var isAndroid = ionic.Platform.isAndroid();
 
   /* function for initialize main*/
     $rootScope.initializeMyAccount = function()
@@ -2508,11 +2934,27 @@ app.run(function(){/*some code here*/})
       var tmp5 = 0;
       var tmp_tot = 0;
 
-      $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="margin-left:40%;height: 40px;margin-top: 2px;"/>';
-      $ionicLoading.show({
-        template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-      });
-
+      if(isAndroid)
+      {
+        $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="margin-left:40%;height: 40px;margin-top: 2px;"/>';
+      }
+      else
+      {
+        $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="height: 40px;margin-top: 2px;"/>';
+      }
+      
+      if(isAndroid)
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+        });
+      }
+      else
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+        });
+      }
       $scope.rating = {};
       $scope.rate = {};
       $scope.rating.max = 5;
@@ -2608,9 +3050,19 @@ app.run(function(){/*some code here*/})
   /* modal */
     $scope.editUser = function(id)
     {
-      $ionicLoading.show({
-        template: '<ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-      });
+      
+      if(isAndroid)
+      {
+        $ionicLoading.show({
+          template: '<ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+        });
+      }
+      else
+      {
+        $ionicLoading.show({
+          template: '<ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+        });
+      }
       var obj    = new Object();
       obj.method = 'POST';
       obj.url    = $rootScope.baseURL + "?func=getPersonalAccount";
@@ -2662,9 +3114,19 @@ app.run(function(){/*some code here*/})
     {
       if(data.$valid)
       {
-        $ionicLoading.show({
-          template: 'Updating information<br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-        });
+        
+        if(isAndroid)
+        {
+          $ionicLoading.show({
+            template: 'Updating information<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+          });
+        }
+        else
+        {
+          $ionicLoading.show({
+            template: 'Updating information<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+          });
+        }
         var obj    = new Object();
         obj.method = 'POST';
         obj.url    = $rootScope.baseURL + "?func=updateUser";
@@ -2735,11 +3197,20 @@ app.run(function(){/*some code here*/})
   $scope.pick.id = 0;
   $scope.hide = true;
   var isLogged = Auth.FETCH_DATA('userid');
+  var isIOS = ionic.Platform.isIOS();
+  var isAndroid = ionic.Platform.isAndroid();
 
   /* function for initialize main*/
     $rootScope.initializeInvoice = function()
     {
-      $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="margin-left:30%;height: 40px;margin-top: 2px;"/>';
+      if(isAndroid)
+      {
+        $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="margin-left:30%;height: 40px;margin-top: 2px;"/>';
+      }
+      else
+      {
+        $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="height: 40px;margin-top: 2px;"/>';
+      }
       $scope.onezoneDatepicker = {
         date: new Date(), // MANDATORY                     
         mondayFirst: false,                
@@ -2780,9 +3251,19 @@ app.run(function(){/*some code here*/})
     $scope.getInvoice = function(date)
     {
       $scope.pick.date = date;
-      $ionicLoading.show({
-        template: 'Fetching Invoice <br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-      });
+      
+      if(isAndroid)
+      {
+        $ionicLoading.show({
+          template: 'Fetching Invoice <br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+        });
+      }
+      else
+      {
+        $ionicLoading.show({
+          template: 'Fetching Invoice <br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+        });
+      }
       var obj    = new Object();
       obj.method = 'POST';
       obj.url    = $rootScope.baseURL + "?func=viewInvoiceByDate";
@@ -2881,9 +3362,19 @@ app.run(function(){/*some code here*/})
       $scope.searchView = false;
       $scope.hide = false;
       total = 0;
-      $ionicLoading.show({
-        template: 'Fetching Invoice <br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-      });
+      
+      if(isAndroid)
+      {
+        $ionicLoading.show({
+          template: 'Fetching Invoice <br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+        });
+      }
+      else
+      {
+        $ionicLoading.show({
+          template: 'Fetching Invoice <br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+        });
+      }
       var obj    = new Object();
       obj.method = 'POST';
       obj.url    = $rootScope.baseURL + "?func=viewInvoice";
@@ -2951,22 +3442,41 @@ app.run(function(){/*some code here*/})
   /* /. */
 }])
 
-.controller('servicesCtrl',['$scope','$rootScope','$ionicPlatform','$ionicHistory','$ionicLoading','Auth', '$ionicModal', '$ionicActionSheet', '$ionicPopup',
-                function($scope,  $rootScope,  $ionicPlatform,  $ionicHistory,  $ionicLoading,  Auth,  $ionicModal, $ionicActionSheet, $ionicPopup ) 
+.controller('servicesCtrl',['$scope','$rootScope','$ionicPlatform','$ionicHistory','$ionicLoading','Auth', '$ionicModal', '$ionicActionSheet', '$ionicPopup', '$ionicScrollDelegate',
+                function($scope,  $rootScope,  $ionicPlatform,  $ionicHistory,  $ionicLoading,  Auth,  $ionicModal, $ionicActionSheet, $ionicPopup, $ionicScrollDelegate ) 
 {
   
   $rootScope.backButtonPressedOnceToExit = false; 
   $scope.service = [];
   var clicked = false;
   var isLogged = Auth.FETCH_DATA('userid');
+  var isIOS = ionic.Platform.isIOS();
+  var isAndroid = ionic.Platform.isAndroid();
 
   /* function for initialize main*/
     $rootScope.initializeServices = function()
     {
-      $ionicLoading.show({
-        template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-      });
-      $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="margin-left:30%;height: 40px;margin-top: 2px;"/>';
+      
+      if(isAndroid)
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+        });
+      }
+      else
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+        });
+      }
+      if(isAndroid)
+      {
+        $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="margin-left:30%;height: 40px;margin-top: 2px;"/>';
+      }
+      else
+      {
+        $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="height: 40px;margin-top: 2px;"/>';
+      }
       var obj    = new Object();
         obj.method = 'POST';
         obj.url    = $rootScope.baseURL + "?func=getServices";
@@ -2977,6 +3487,7 @@ app.run(function(){/*some code here*/})
 
         Auth.REQUEST(obj).then(function(success) {
                                 $scope.allServices = success.data[0];
+                                $scope.$broadcast('scroll.refreshComplete');
                                 $ionicLoading.hide();
                               },
                               function(error) {
@@ -3015,9 +3526,19 @@ app.run(function(){/*some code here*/})
     {
       if(data.$valid)
       {
-        $ionicLoading.show({
-          template: 'Creating service<br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-        });
+        
+        if(isAndroid)
+        {
+          $ionicLoading.show({
+            template: 'Creating service<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+          });
+        }
+        else
+        {
+          $ionicLoading.show({
+            template: 'Creating service<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+          });
+        }
         var obj    = new Object();
         obj.method = 'POST';
         obj.url    = $rootScope.baseURL + "?func=addServices";
@@ -3088,6 +3609,7 @@ app.run(function(){/*some code here*/})
       $scope.service.id = id;
       $scope.service.name = name;
       $scope.service.cost = parseFloat(cost);
+      $ionicScrollDelegate.$getByHandle('mainScroll').scrollTop();
       $scope.editServiceModal.show();
     }
       // -------------- Modal ---------------
@@ -3113,9 +3635,19 @@ app.run(function(){/*some code here*/})
     {
       if(data.$valid)
       {
-        $ionicLoading.show({
-          template: 'Updating service<br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-        });
+        
+        if(isAndroid)
+        {
+          $ionicLoading.show({
+            template: 'Updating service<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+          });
+        }
+        else
+        {
+          $ionicLoading.show({
+            template: 'Updating service<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+          });
+        }
         var obj    = new Object();
           obj.method = 'POST';
           obj.url    = $rootScope.baseURL + "?func=updateServices";
@@ -3163,9 +3695,19 @@ app.run(function(){/*some code here*/})
 
       confirmPopup.then(function(res) {
         if(res) {
-          $ionicLoading.show({
-            template: 'Deleting service<br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-          });
+          
+          if(isAndroid)
+          {
+            $ionicLoading.show({
+              template: 'Deleting service<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+            });
+          }
+          else
+          {
+            $ionicLoading.show({
+              template: 'Deleting service<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+            });
+          }
           var obj    = new Object();
               obj.method = 'POST';
               obj.url    = $rootScope.baseURL + '?func=deleteService';
@@ -3212,22 +3754,41 @@ app.run(function(){/*some code here*/})
   /* /. */
 }])
 
-.controller('agentsCtrl',['$scope','$rootScope','$ionicPlatform','$ionicHistory','$ionicLoading','Auth', '$ionicModal', '$ionicActionSheet', '$ionicPopup', '$cordovaImagePicker',
-                function($scope,  $rootScope,  $ionicPlatform,  $ionicHistory,  $ionicLoading,  Auth,  $ionicModal, $ionicActionSheet, $ionicPopup, $cordovaImagePicker ) 
+.controller('agentsCtrl',['$scope','$rootScope','$ionicPlatform','$ionicHistory','$ionicLoading','Auth', '$ionicModal', '$ionicActionSheet', '$ionicPopup', '$cordovaImagePicker', '$ionicScrollDelegate',
+                function($scope,  $rootScope,  $ionicPlatform,  $ionicHistory,  $ionicLoading,  Auth,  $ionicModal, $ionicActionSheet, $ionicPopup, $cordovaImagePicker, $ionicScrollDelegate ) 
 {
   
   $rootScope.backButtonPressedOnceToExit = false; 
   $scope.agent = [];
   var clicked = false;
   var isLogged = Auth.FETCH_DATA('userid');
+  var isIOS = ionic.Platform.isIOS();
+  var isAndroid = ionic.Platform.isAndroid();
 
   /* function for initialize main*/
     $rootScope.initializeAgents = function()
     {
-      $ionicLoading.show({
-        template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-      });
-      $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="margin-left:28%;height: 40px;margin-top: 2px;"/>';
+      
+      if(isAndroid)
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+        });
+      }
+      else
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+        });
+      }
+      if(isAndroid)
+      {
+        $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="margin-left:28%;height: 40px;margin-top: 2px;"/>';
+      }
+      else
+      {
+        $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="height: 40px;margin-top: 2px;"/>';
+      }
       var obj    = new Object();
         obj.method = 'POST';
         obj.url    = $rootScope.baseURL + "?func=getAgents";
@@ -3237,9 +3798,9 @@ app.run(function(){/*some code here*/})
         obj.params = {};
 
         Auth.REQUEST(obj).then(function(success) {
-          console.log(success.data[0]);
                                 $scope.allAgents = success.data[0];
                                 $scope.baseURL = $rootScope.baseURL;
+                                $scope.$broadcast('scroll.refreshComplete');
                                 $ionicLoading.hide();
                               },
                               function(error) {
@@ -3279,10 +3840,19 @@ app.run(function(){/*some code here*/})
     {
       if(data.$valid)
       {
-        $ionicLoading.show({
-          template: 'Creating agent<br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-        });
-
+        
+        if(isAndroid)
+        {
+          $ionicLoading.show({
+            template: 'Creating agent<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+          });
+        }
+        else
+        {
+          $ionicLoading.show({
+            template: 'Creating agent<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+          });
+        }
         var win = function (r) {
           if(r.responseCode == 200)
           {
@@ -3397,6 +3967,7 @@ app.run(function(){/*some code here*/})
       {
         $scope.agent.img = $rootScope.baseURL+img;
       }
+      $ionicScrollDelegate.$getByHandle('mainScroll').scrollTop();
       $scope.editAgentModal.show();
     }
       // -------------- Modal ---------------
@@ -3424,9 +3995,19 @@ app.run(function(){/*some code here*/})
     {
       if(data.$valid)
       {
-        $ionicLoading.show({
-          template: 'Updating agent<br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-        });
+        
+        if(isAndroid)
+        {
+          $ionicLoading.show({
+            template: 'Updating agent<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+          });
+        }
+        else
+        {
+          $ionicLoading.show({
+            template: 'Updating agent<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+          });
+        }
         if($scope.img_ == '')
         {
           var obj    = new Object();
@@ -3550,9 +4131,19 @@ app.run(function(){/*some code here*/})
 
       confirmPopup.then(function(res) {
         if(res) {
-          $ionicLoading.show({
-            template: 'Deleting agent<br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-          });
+          
+          if(isAndroid)
+          {
+            $ionicLoading.show({
+              template: 'Deleting agent<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+            });
+          }
+          else
+          {
+            $ionicLoading.show({
+              template: 'Deleting agent<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+            });
+          }
           var obj    = new Object();
               obj.method = 'POST';
               obj.url    = $rootScope.baseURL + '?func=deleteAgent';
@@ -3629,13 +4220,25 @@ app.run(function(){/*some code here*/})
   $scope.appoint = [];
   $scope.error = false;
   var count = 0;
+  var isIOS = ionic.Platform.isIOS();
+  var isAndroid = ionic.Platform.isAndroid();
 
   /* function for initialize main*/
     $rootScope.initializeAppointProvider = function()
     {
-      $ionicLoading.show({
-        template: 'Fetching Provider that nears you ! <br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-      });
+      
+      if(isAndroid)
+      {
+        $ionicLoading.show({
+          template: 'Fetching Provider that nears you ! <br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+        });
+      }
+      else
+      {
+        $ionicLoading.show({
+          template: 'Fetching Provider that nears you ! <br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+        });
+      }
       var posOptions = {timeout: 10000, enableHighAccuracy: false};
       $cordovaGeolocation.getCurrentPosition(posOptions)
         .then(function (position) {
@@ -3723,9 +4326,19 @@ app.run(function(){/*some code here*/})
             });
             if(temp != "")
             {
-              $ionicLoading.show({
-                template: 'Submitting Appointment<br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-              });
+              
+              if(isAndroid)
+              {
+                $ionicLoading.show({
+                  template: 'Submitting Appointment<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+                });
+              }
+              else
+              {
+                $ionicLoading.show({
+                  template: 'Submitting Appointment<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+                });
+              }
               var obj    = new Object();
               obj.method = 'POST';
               obj.url    = $rootScope.baseURL + "?func=addProviderAppointment";
@@ -3805,8 +4418,8 @@ app.run(function(){/*some code here*/})
   /* /. */
 }])
 
-.controller('pendingCtrl',['$scope','$rootScope','$ionicPlatform','$ionicHistory','$ionicLoading','Auth', '$cordovaGeolocation', '$ionicModal', '$ionicPopup', '$interval',
-                function($scope,  $rootScope,  $ionicPlatform,  $ionicHistory,  $ionicLoading,  Auth,  $cordovaGeolocation,$ionicModal, $ionicPopup, $interval) 
+.controller('pendingCtrl',['$scope','$rootScope','$ionicPlatform','$ionicHistory','$ionicLoading','Auth', '$cordovaGeolocation', '$ionicModal', '$ionicPopup', '$interval', '$ionicScrollDelegate',
+                function($scope,  $rootScope,  $ionicPlatform,  $ionicHistory,  $ionicLoading,  Auth,  $cordovaGeolocation,$ionicModal, $ionicPopup, $interval, $ionicScrollDelegate) 
 {
   
   $rootScope.backButtonPressedOnceToExit = false; 
@@ -3819,14 +4432,33 @@ app.run(function(){/*some code here*/})
    $scope.some_model = [];
    $scope.feed = [];
    $scope.error = false;
+  var isIOS = ionic.Platform.isIOS();
+  var isAndroid = ionic.Platform.isAndroid();
 
   /* function for initialize main*/
     $rootScope.initializePending = function()
     {
-      $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="margin-left:40%;height: 40px;margin-top: 2px;"/>';
-      $ionicLoading.show({
-        template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-      });
+      if(isAndroid)
+      {
+        $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="margin-left:40%;height: 40px;margin-top: 2px;"/>';
+      }
+      else
+      {
+        $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="height: 40px;margin-top: 2px;"/>';
+      }
+      
+      if(isAndroid)
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+        });
+      }
+      else
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+        });
+      }
       var obj    = new Object();
       obj.method = 'POST';
       obj.url    = $rootScope.baseURL + "?func=getPendingBooking";
@@ -3838,11 +4470,13 @@ app.run(function(){/*some code here*/})
                                 if(success.data != 0)
                                 {
                                   $scope.appoints = success.data;
+                                  $scope.$broadcast('scroll.refreshComplete');
                                   $ionicLoading.hide();
                                 }
                                 else
                                 {
                                   $scope.appoints = 0;
+                                  $scope.$broadcast('scroll.refreshComplete');
                                   $ionicLoading.hide();
                                 }
                             },
@@ -3914,9 +4548,19 @@ app.run(function(){/*some code here*/})
   /* view pending bookings */
     $scope.viewBooking = function(id)
     {
-      $ionicLoading.show({
-        template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-      });
+      
+      if(isAndroid)
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+        });
+      }
+      else
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+        });
+      }
       var obj    = new Object();
       obj.method = 'POST';
       obj.url    = $rootScope.baseURL + "?func=getAppointment";
@@ -3926,6 +4570,7 @@ app.run(function(){/*some code here*/})
       obj.params = {};
       Auth.REQUEST(obj).then(function(success) {
                                 $scope.events = success.data;
+                                $ionicScrollDelegate.$getByHandle('mainScroll').scrollTop();
                                 // for(var i = 0; i < $scope.events.length ; i++)
                                 // {
                                 //   if(i != $scope.events.length)
@@ -4009,7 +4654,7 @@ app.run(function(){/*some code here*/})
           if(res) {
             status = "declined";
             $ionicLoading.show({
-              template: 'Declining appointment<br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
+              template: 'Declining appointment<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
             });
             $scope.approved(id,status);
           } else {
@@ -4020,9 +4665,19 @@ app.run(function(){/*some code here*/})
       else
       {
         status = "approved";
-        $ionicLoading.show({
-          template: 'Fetching available agents<br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-        });
+        
+        if(isAndroid)
+        {
+          $ionicLoading.show({
+            template: 'Fetching available agents<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+          });
+        }
+        else
+        {
+          $ionicLoading.show({
+            template: 'Fetching available agents<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+          });
+        }
         var obj    = new Object();
         obj.method = 'POST';
         obj.url    = $rootScope.baseURL + "?func=getAgentByProvider";
@@ -4090,9 +4745,19 @@ app.run(function(){/*some code here*/})
         else
         {
           $scope.error = false;
-          $ionicLoading.show({
-            template: 'Approving appointment<br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-          });
+          
+          if(isAndroid)
+          {
+            $ionicLoading.show({
+              template: 'Approving appointment<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+            });
+          }
+          else
+          {
+            $ionicLoading.show({
+              template: 'Approving appointment<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+            });
+          }
           var obj    = new Object();
           obj.method = 'POST';
           obj.url    = $rootScope.baseURL + "?func=addAppointAgent";
@@ -4234,9 +4899,19 @@ app.run(function(){/*some code here*/})
   /* view invoice */
     $scope.viewInvoice = function(id)
     {
-      $ionicLoading.show({
-        template: 'Fetching Invoice <br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-      });
+      
+      if(isAndroid)
+      {
+        $ionicLoading.show({
+          template: 'Fetching Invoice <br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+        });
+      }
+      else
+      {
+        $ionicLoading.show({
+          template: 'Fetching Invoice <br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+        });
+      }
       var obj    = new Object();
       obj.method = 'POST';
       obj.url    = $rootScope.baseURL + "?func=viewInvoice";
@@ -4245,6 +4920,7 @@ app.run(function(){/*some code here*/})
       obj.data.append('loginSecret','0ff9346b4edc8dc033bff30762bc3c15d465d3f');
       obj.params = {};
       Auth.REQUEST(obj).then(function(success) {
+                                $ionicScrollDelegate.$getByHandle('mainScroll').scrollTop();
                                 if(success.data == 0)
                                 {
                                   $rootScope.showToast('Error');
@@ -4382,9 +5058,19 @@ app.run(function(){/*some code here*/})
   /* submit review */
     $scope.submitReview = function(id)
     {
-      $ionicLoading.show({
-        template: 'Submitting ... <br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-      });
+      
+      if(isAndroid)
+      {
+        $ionicLoading.show({
+          template: 'Submitting ... <br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+        });
+      }
+      else
+      {
+        $ionicLoading.show({
+          template: 'Submitting ... <br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+        });
+      }
       var obj    = new Object();
       obj.method = 'POST';
       obj.url    = $rootScope.baseURL + "?func=addCustReview";
@@ -4429,9 +5115,19 @@ app.run(function(){/*some code here*/})
       var tmp5 = 0;
       var tmp_tot = 0;
 
-      $ionicLoading.show({
-        template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-      });
+      
+      if(isAndroid)
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+        });
+      }
+      else
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+        });
+      }
       $scope.rating = {};
       $scope.rate = {};
       $scope.rating.max = 5;
@@ -4454,6 +5150,7 @@ app.run(function(){/*some code here*/})
                               obj.data.append('loginSecret','0ff9346b4edc8dc033bff30762bc3c15d465d3f');
                               obj.params = {};
                               Auth.REQUEST(obj).then(function(success) {
+                                                      $ionicScrollDelegate.$getByHandle('mainScroll').scrollTop();
                                                       if (success.data != 0)
                                                       {
                                                         $scope.view_ratings = true;
@@ -4552,6 +5249,8 @@ app.run(function(){/*some code here*/})
   $scope.profile = [];
   $scope.view_ratings = false;
   $scope.view_map = false;
+  var isIOS = ionic.Platform.isIOS();
+  var isAndroid = ionic.Platform.isAndroid();
 
   /* function for initialize main*/
     $rootScope.initializeMyAccount = function()
@@ -4563,11 +5262,27 @@ app.run(function(){/*some code here*/})
       var tmp5 = 0;
       var tmp_tot = 0;
 
-      $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="margin-left:40%;height: 40px;margin-top: 2px;"/>';
-      $ionicLoading.show({
-        template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-      });
-
+      if(isAndroid)
+      {
+        $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="margin-left:40%;height: 40px;margin-top: 2px;"/>';
+      }
+      else
+      {
+        $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="height: 40px;margin-top: 2px;"/>';
+      }
+      
+      if(isAndroid)
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+        });
+      }
+      else
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+        });
+      }
       $scope.rating = {};
       $scope.rate = {};
       $scope.rating.max = 5;
@@ -4665,9 +5380,19 @@ app.run(function(){/*some code here*/})
   /* modal */
     $scope.editUser = function(id)
     {
-      $ionicLoading.show({
-        template: '<ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-      });
+      
+      if(isAndroid)
+      {
+        $ionicLoading.show({
+          template: '<ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+        });
+      }
+      else
+      {
+        $ionicLoading.show({
+          template: '<ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+        });
+      }
       var obj    = new Object();
       obj.method = 'POST';
       obj.url    = $rootScope.baseURL + "?func=getBusinessAccount";
@@ -4715,9 +5440,19 @@ app.run(function(){/*some code here*/})
   /* update user */
     $scope.updateUser = function()
     {
-      $ionicLoading.show({
-        template: 'Updating information<br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-      });
+      
+      if(isAndroid)
+      {
+        $ionicLoading.show({
+          template: 'Updating information<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+        });
+      }
+      else
+      {
+        $ionicLoading.show({
+          template: 'Updating information<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+        });
+      }
       var obj    = new Object();
       obj.method = 'POST';
       obj.url    = $rootScope.baseURL + "?func=updateBusinessUser";
@@ -4759,9 +5494,19 @@ app.run(function(){/*some code here*/})
   /* navigate */
     $scope.navigate = function()
     {
-      $ionicLoading.show({
-        template: 'Fetching your location <br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-      });
+      
+      if(isAndroid)
+      {
+        $ionicLoading.show({
+          template: 'Fetching your location <br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+        });
+      }
+      else
+      {
+        $ionicLoading.show({
+          template: 'Fetching your location <br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+        });
+      }
       var posOptions = {timeout: 10000, enableHighAccuracy: false};
       $cordovaGeolocation.getCurrentPosition(posOptions)
         .then(function (position) {
@@ -4810,6 +5555,8 @@ app.run(function(){/*some code here*/})
   $rootScope.backButtonPressedOnceToExit = false; 
   var latitude = $rootScope.latLong[0];
   var longitude = $rootScope.latLong[1];
+  var isIOS = ionic.Platform.isIOS();
+  var isAndroid = ionic.Platform.isAndroid();
 
   /* map */
     function initialize() {
@@ -4853,15 +5600,33 @@ app.run(function(){/*some code here*/})
 {
   
   $rootScope.backButtonPressedOnceToExit = false;
+  var isIOS = ionic.Platform.isIOS();
+  var isAndroid = ionic.Platform.isAndroid();
 
   /* initialize main */
     $rootScope.initializeDashboard = function()
     {
-      $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="margin-left:40%;height: 40px;margin-top: 2px;"/>';
-      $ionicLoading.show({
-        template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-      });
-
+      if(isAndroid)
+      {
+        $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="margin-left:40%;height: 40px;margin-top: 2px;"/>';
+      }
+      else
+      {
+        $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="height: 40px;margin-top: 2px;"/>';
+      }
+      
+      if(isAndroid)
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+        });
+      }
+      else
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+        });
+      }
       $('.ionic-fullcalendar')
       .fullCalendar(
         {
@@ -4950,12 +5715,15 @@ app.run(function(){/*some code here*/})
                               if(success.data == 0)
                               {
                                 $scope.countBusInAccount = 0;
+                                $scope.$broadcast('scroll.refreshComplete');
+                                $ionicLoading.hide();
                               }
                               else
                               {
                                 $scope.countBusInAccount = success.data.length;
+                                $scope.$broadcast('scroll.refreshComplete');
+                                $ionicLoading.hide();
                               }
-                              $ionicLoading.hide();
                                 $cordovaLocalNotification.schedule({
                                   id: 1,
                                   title: 'Grass2go Lawn Care Services',
@@ -5001,22 +5769,43 @@ app.run(function(){/*some code here*/})
   /* /. */
 }])
 
-.controller('listPersonalAccountCtrl',['$scope','$rootScope','$ionicPlatform','$ionicHistory','$ionicLoading','Auth', '$compile', '$interval', '$ionicActionSheet', '$ionicModal', '$ionicPopup',
-                function($scope,  $rootScope,  $ionicPlatform,  $ionicHistory,  $ionicLoading,  Auth, $compile, $interval, $ionicActionSheet , $ionicModal, $ionicPopup ) 
+.controller('listPersonalAccountCtrl',['$scope','$rootScope','$ionicPlatform','$ionicHistory','$ionicLoading','Auth', '$compile', '$interval', '$ionicActionSheet', '$ionicModal', '$ionicPopup', '$ionicScrollDelegate',
+                function($scope,  $rootScope,  $ionicPlatform,  $ionicHistory,  $ionicLoading,  Auth, $compile, $interval, $ionicActionSheet , $ionicModal, $ionicPopup, $ionicScrollDelegate ) 
 {
   
   $rootScope.backButtonPressedOnceToExit = false; 
   var clicked = false; 
   $scope.view_ratings = false;
+  var isIOS = ionic.Platform.isIOS();
+  var isAndroid = ionic.Platform.isAndroid();
+  $scope.is_go_search = false;
+  $scope.data = {};
+  $scope.data.query = '';
 
   /* initialize main */
     $rootScope.initializePerAccount = function()
     {
-      $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="margin-left:40%;height: 40px;margin-top: 2px;"/>';
-      $ionicLoading.show({
-        template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-      });
+      if(isAndroid)
+      {
+        $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="margin-left:28%;height: 40px;margin-top: 2px;"/>';
+      }
+      else
+      {
+        $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="height: 40px;margin-top: 2px;"/>';
+      }
       
+      if(isAndroid)
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+        });
+      }
+      else
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+        });
+      }
       var obj    = new Object();
       obj.method = 'POST';
       obj.url    = $rootScope.baseURL + "?func=getAllPersonalAccounts";
@@ -5025,6 +5814,7 @@ app.run(function(){/*some code here*/})
       obj.params = {};
       Auth.REQUEST(obj).then(function(success) { 
                               $scope.perAccount = success.data;
+                              $scope.$broadcast('scroll.refreshComplete');
                               $ionicLoading.hide();
                             },
                             function(error) {
@@ -5033,6 +5823,14 @@ app.run(function(){/*some code here*/})
                                 $rootScope.showToast('Failed !');
                               }
                             );
+    }
+  /* /. */
+
+  /* format */
+    $scope.formatDate = function(date)
+    {
+      var d = moment(date).format('MMMM YYYY');
+      return d;
     }
   /* /. */
 
@@ -5068,6 +5866,7 @@ app.run(function(){/*some code here*/})
   /* view customer */
     $scope.viewCust = function(id)
     {
+      $ionicScrollDelegate.$getByHandle('mainScroll').scrollTop();
       var tmp1 = 0;
       var tmp2 = 0;
       var tmp3 = 0;
@@ -5075,9 +5874,19 @@ app.run(function(){/*some code here*/})
       var tmp5 = 0;
       var tmp_tot = 0;
 
-      $ionicLoading.show({
-        template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-      });
+      
+      if(isAndroid)
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+        });
+      }
+      else
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+        });
+      }
       $scope.rating = {};
       $scope.rate = {};
       $scope.rating.max = 5;
@@ -5091,6 +5900,7 @@ app.run(function(){/*some code here*/})
       obj.params = {};
       Auth.REQUEST(obj).then(function(success) {
                               $scope.userInfo = success.data[0];
+                              $ionicScrollDelegate.$getByHandle('mainScroll').scrollTop();
                               $scope.view_cust.show();
                               var obj    = new Object();
                               obj.method = 'POST';
@@ -5186,9 +5996,19 @@ app.run(function(){/*some code here*/})
 
       confirmPopup.then(function(res) {
         if(res) {
-          $ionicLoading.show({
-            template: 'Deleting <br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-          });
+          
+          if(isAndroid)
+          {
+            $ionicLoading.show({
+              template: 'Deleting <br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+            });
+          }
+          else
+          {
+            $ionicLoading.show({
+              template: 'Deleting <br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+            });
+          }
           var obj    = new Object();
               obj.method = 'POST';
               obj.url    = $rootScope.baseURL + '?func=deletePersonal';
@@ -5223,6 +6043,58 @@ app.run(function(){/*some code here*/})
     }
   /* /. */
 
+  /* search */
+    $scope.search = function()
+    {
+      $scope.is_go_search = !$scope.is_go_search;
+      $scope.data.query   = '';
+    }
+    $scope.clear = function()
+    {
+      $('.input').val('');
+      $scope.data.query = '';
+      var obj    = new Object();
+      obj.method = 'POST';
+      obj.url    = $rootScope.baseURL + "?func=getAllPersonalAccountsByName";
+      obj.data   = new FormData();
+      obj.data.append('lname',$scope.data.query);
+      obj.data.append('loginSecret','0ff9346b4edc8dc033bff30762bc3c15d465d3f');
+      obj.params = {};
+      Auth.REQUEST(obj).then(function(success) { 
+                              $scope.perAccount = success.data;
+                              $scope.$broadcast('scroll.refreshComplete');
+                              $ionicLoading.hide();
+                            },
+                            function(error) {
+                                console.log(error);
+                                $ionicLoading.hide();
+                                $rootScope.showToast('Failed !');
+                              }
+                            );
+    } 
+    $scope.searchAccount = function()
+    {
+      var obj    = new Object();
+      obj.method = 'POST';
+      obj.url    = $rootScope.baseURL + "?func=getAllPersonalAccountsByName";
+      obj.data   = new FormData();
+      obj.data.append('lname',$scope.data.query);
+      obj.data.append('loginSecret','0ff9346b4edc8dc033bff30762bc3c15d465d3f');
+      obj.params = {};
+      Auth.REQUEST(obj).then(function(success) { 
+                              $scope.perAccount = success.data;
+                              $scope.$broadcast('scroll.refreshComplete');
+                              $ionicLoading.hide();
+                            },
+                            function(error) {
+                                console.log(error);
+                                $ionicLoading.hide();
+                                $rootScope.showToast('Failed !');
+                              }
+                            );
+    }
+  /* /. */
+
   /* initialization */
     $rootScope.initializePerAccount();
   /* /. */
@@ -5235,21 +6107,42 @@ app.run(function(){/*some code here*/})
   /* /. */
 }])
 
-.controller('listBusinessAccountCtrl',['$scope','$rootScope','$ionicPlatform','$ionicHistory','$ionicLoading','Auth', '$compile', '$interval', '$ionicActionSheet', '$ionicModal', '$ionicPopup',
-                function($scope,  $rootScope,  $ionicPlatform,  $ionicHistory,  $ionicLoading,  Auth, $compile, $interval, $ionicActionSheet, $ionicModal, $ionicPopup) 
+.controller('listBusinessAccountCtrl',['$scope','$rootScope','$ionicPlatform','$ionicHistory','$ionicLoading','Auth', '$compile', '$interval', '$ionicActionSheet', '$ionicModal', '$ionicPopup', '$ionicScrollDelegate',
+                function($scope,  $rootScope,  $ionicPlatform,  $ionicHistory,  $ionicLoading,  Auth, $compile, $interval, $ionicActionSheet, $ionicModal, $ionicPopup, $ionicScrollDelegate) 
 {
   
   $rootScope.backButtonPressedOnceToExit = false;
   var clicked = false; 
+  var isIOS = ionic.Platform.isIOS();
+  var isAndroid = ionic.Platform.isAndroid();
+  $scope.is_go_search = false;
+  $scope.data = {};
+  $scope.data.query = '';
 
   /* initialize main */
     $rootScope.initializeBusAccount = function()
     {
-      $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="margin-left:40%;height: 40px;margin-top: 2px;"/>';
-      $ionicLoading.show({
-        template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-      });
+      if(isAndroid)
+      {
+        $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="margin-left:28%;height: 40px;margin-top: 2px;"/>';
+      }
+      else
+      {
+        $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="height: 40px;margin-top: 2px;"/>';
+      }
       
+      if(isAndroid)
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+        });
+      }
+      else
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+        });
+      }
       var obj    = new Object();
       obj.method = 'POST';
       obj.url    = $rootScope.baseURL + "?func=getAllBusinessAccounts";
@@ -5259,6 +6152,7 @@ app.run(function(){/*some code here*/})
       Auth.REQUEST(obj).then(function(success) { 
                               $scope.countBusAccount = success.data.length;
                               $scope.businessAccount = success.data;
+                              $scope.$broadcast('scroll.refreshComplete');
                               $ionicLoading.hide();
                             },
                             function(error) {
@@ -5271,11 +6165,13 @@ app.run(function(){/*some code here*/})
   /* /. */
 
   /* sction sheet */
-    $scope.actionBusiness = function(id)
+    $scope.actionBusiness = function(id,status)
     {
       clicked = true;
       // Show the action sheet
-      var hideSheet = $ionicActionSheet.show({
+      if(status == 'active')
+      {
+        var hideSheet = $ionicActionSheet.show({
          buttons: [
             { text: 'View Information' },
             { text: 'Delete Account' },
@@ -5295,13 +6191,45 @@ app.run(function(){/*some code here*/})
             }
             return true;
           }
-       });
+        });
+      }
+      else
+      {
+        var hideSheet = $ionicActionSheet.show({
+         buttons: [
+            { text: 'View Information' },
+            { text: 'Activate Account' },
+            { text: 'Delete Account' },
+          ],
+          cancelText: 'Cancel',
+          cancel: function() {
+              clicked = false;
+            },
+          buttonClicked: function(index) {
+            if(index == 0)
+            {
+              $scope.viewAcc(id);
+            }
+            else if(index == 1)
+            {
+              $scope.activeAccount(id);
+            }
+            else if(index == 2)
+            {
+              $scope.deleteAccount(id);
+            }
+            return true;
+          }
+        });
+      }
+      
     }
   /* /. */
 
   /* view */
     $scope.viewAcc = function(id)
     {
+      $ionicScrollDelegate.$getByHandle('mainScroll').scrollTop();
       var tmp1 = 0;
       var tmp2 = 0;
       var tmp3 = 0;
@@ -5310,10 +6238,19 @@ app.run(function(){/*some code here*/})
       var tmp_tot = 0;
 
       $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="margin-left:40%;height: 40px;margin-top: 2px;"/>';
-      $ionicLoading.show({
-        template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-      });
-
+      
+      if(isAndroid)
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+        });
+      }
+      else
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+        });
+      }
       $scope.rating = {};
       $scope.rate = {};
       $scope.rating.max = 5;
@@ -5327,8 +6264,27 @@ app.run(function(){/*some code here*/})
       obj.params = {};
       Auth.REQUEST(obj).then(function(success) {
                               $scope.userInfo = success.data[0];
+                              var location = [parseFloat(success.data[0].latitude),parseFloat(success.data[0].longitude)];
+                              $scope.location = location;
                               $scope.view_businesss.show();
-                              $ionicLoading.hide();
+
+                              var obj    = new Object();
+                              obj.method = 'POST';
+                              obj.url    = $rootScope.baseURL + "?func=getServices";
+                              obj.data   = new FormData();
+                              obj.data.append('provider_id',id);
+                              obj.data.append('loginSecret','0ff9346b4edc8dc033bff30762bc3c15d465d3f');
+                              obj.params = {};
+                              Auth.REQUEST(obj).then(function(success) {
+                                console.log(success.data[0]);
+                                                        $scope.services = success.data[0];
+                                                        $ionicLoading.hide();
+                                                    },
+                                                    function(error) {
+                                                        $ionicLoading.hide();
+                                                        $rootScope.showToast('Failed !');
+                                                      }
+                                                    );
                               // var obj    = new Object();
                               // obj.method = 'POST';
                               // obj.url    = $rootScope.baseURL + "?func=getProviderReview";
@@ -5423,9 +6379,19 @@ app.run(function(){/*some code here*/})
 
       confirmPopup.then(function(res) {
         if(res) {
-          $ionicLoading.show({
-            template: 'Deleting <br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-          });
+          
+          if(isAndroid)
+          {
+            $ionicLoading.show({
+              template: 'Deleting <br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+            });
+          }
+          else
+          {
+            $ionicLoading.show({
+              template: 'Deleting <br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+            });
+          }
           var obj    = new Object();
           obj.method = 'POST';
           obj.url    = $rootScope.baseURL + '?func=deleteBusiness';
@@ -5460,6 +6426,142 @@ app.run(function(){/*some code here*/})
     }
   /* /. */
 
+  /* active services */
+    $scope.activeAccount = function(id)
+    {
+      var confirmPopup = $ionicPopup.confirm({
+        title: 'Activate Account',
+        template: 'Are you sure you want to activate this business account?'
+      });
+
+      confirmPopup.then(function(res) {
+        if(res) {
+          
+          if(isAndroid)
+          {
+            $ionicLoading.show({
+              template: 'Activating <br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+            });
+          }
+          else
+          {
+            $ionicLoading.show({
+              template: 'Activating <br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+            });
+          }
+          var obj    = new Object();
+          obj.method = 'POST';
+          obj.url    = $rootScope.baseURL + '?func=activeBusiness';
+          obj.data   = new FormData();
+          obj.data.append('provider_id',id);
+          obj.data.append('loginSecret','0ff9346b4edc8dc033bff30762bc3c15d465d3f');
+          obj.params = {};
+          Auth.REQUEST(obj).then(function(success) {
+                                    console.log(success.data);
+                                    if(success.data == '1')
+                                    {
+                                      // alert('Successfully Deleted');
+                                      $rootScope.initializeBusAccount();
+                                      $rootScope.showToast('Successfully Activated');
+                                    }
+                                    else
+                                    {
+                                      // alert('Failed');
+                                      $rootScope.showToast('Failed');
+                                    }
+                                    $ionicLoading.hide();
+                                },
+                                function(error) { 
+                                    console.log(error);
+                                    $ionicLoading.hide();
+                                  }
+                                );
+        } else {
+          console.log('Cancel');
+        }
+      });
+    }
+  /* /. */
+
+  /* search */
+    $scope.search = function()
+    {
+      $scope.is_go_search = !$scope.is_go_search;
+      $scope.data.query   = '';
+    }
+    $scope.clear = function()
+    {
+      $('.input').val('');
+      $scope.data.query = '';
+      var obj    = new Object();
+      obj.method = 'POST';
+      obj.url    = $rootScope.baseURL + "?func=getAllBusinessAccountsByName";
+      obj.data   = new FormData();
+      obj.data.append('company_name',$scope.data.query);
+      obj.data.append('loginSecret','0ff9346b4edc8dc033bff30762bc3c15d465d3f');
+      obj.params = {};
+      Auth.REQUEST(obj).then(function(success) { 
+                              $scope.countBusAccount = success.data.length;
+                              $scope.businessAccount = success.data;
+                              $scope.$broadcast('scroll.refreshComplete');
+                              $ionicLoading.hide();
+                            },
+                            function(error) {
+                                console.log(error);
+                                $ionicLoading.hide();
+                                $rootScope.showToast('Failed !');
+                              }
+                            );
+    } 
+    $scope.searchAccount = function()
+    {
+      var obj    = new Object();
+      obj.method = 'POST';
+      obj.url    = $rootScope.baseURL + "?func=getAllBusinessAccountsByName";
+      obj.data   = new FormData();
+      obj.data.append('company_name',$scope.data.query);
+      obj.data.append('loginSecret','0ff9346b4edc8dc033bff30762bc3c15d465d3f');
+      obj.params = {};
+      Auth.REQUEST(obj).then(function(success) { 
+                              $scope.countBusAccount = success.data.length;
+                              $scope.businessAccount = success.data;
+                              $scope.$broadcast('scroll.refreshComplete');
+                              $ionicLoading.hide();
+                            },
+                            function(error) {
+                                console.log(error);
+                                $ionicLoading.hide();
+                                $rootScope.showToast('Failed !');
+                              }
+                            );
+    }
+  /* /. */
+
+  /* View Map */
+    $scope.viewMap = function(location)
+    {
+      $rootScope.latLong = location;
+      $scope.view_businesss.hide();
+      window.location.href = "#/menu/viewMap2";
+    }
+  /* /. */
+
+  /* check NaN */
+    $scope.checkNan = function(num)
+    {
+      if(isNaN(num))
+      {
+        var n = parseFloat(0);
+        return n.toFixed(2);
+      }
+      else
+      {
+        var n = parseFloat(num);
+        return n.toFixed(2);
+      }
+    }
+  /* /. */
+
   /* initialization */
     $rootScope.initializeBusAccount();
   /* /. */
@@ -5472,21 +6574,42 @@ app.run(function(){/*some code here*/})
   /* /. */
 }])
 
-.controller('listInactiveAccountCtrl',['$scope','$rootScope','$ionicPlatform','$ionicHistory','$ionicLoading','Auth', '$compile', '$interval', '$ionicActionSheet', '$ionicModal', '$ionicPopup',
-                function($scope,  $rootScope,  $ionicPlatform,  $ionicHistory,  $ionicLoading,  Auth, $compile, $interval, $ionicActionSheet, $ionicModal, $ionicPopup) 
+.controller('listInactiveAccountCtrl',['$scope','$rootScope','$ionicPlatform','$ionicHistory','$ionicLoading','Auth', '$compile', '$interval', '$ionicActionSheet', '$ionicModal', '$ionicPopup', '$ionicScrollDelegate',
+                function($scope,  $rootScope,  $ionicPlatform,  $ionicHistory,  $ionicLoading,  Auth, $compile, $interval, $ionicActionSheet, $ionicModal, $ionicPopup, $ionicScrollDelegate) 
 {
   
   $rootScope.backButtonPressedOnceToExit = false;
   var clicked = false; 
+  var isIOS = ionic.Platform.isIOS();
+  var isAndroid = ionic.Platform.isAndroid();
+  $scope.is_go_search = false;
+  $scope.data = {};
+  $scope.data.query = '';
 
   /* initialize main */
     $rootScope.initializeInactiveAccount = function()
     {
-      $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="margin-left:40%;height: 40px;margin-top: 2px;"/>';
-      $ionicLoading.show({
-        template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-      });
+      if(isAndroid)
+      {
+        $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="margin-left:28%;height: 40px;margin-top: 2px;"/>';
+      }
+      else
+      {
+        $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="height: 40px;margin-top: 2px;"/>';
+      }
       
+      if(isAndroid)
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+        });
+      }
+      else
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+        });
+      }
       var obj    = new Object();
       obj.method = 'POST';
       obj.url    = $rootScope.baseURL + "?func=getAllInactiveBusinessAccounts";
@@ -5496,6 +6619,7 @@ app.run(function(){/*some code here*/})
       Auth.REQUEST(obj).then(function(success) { 
                               $scope.countBusInAccount = success.data.length;
                               $scope.inactiveAccount = success.data;
+                              $scope.$broadcast('scroll.refreshComplete');
                               $ionicLoading.hide();
                             },
                             function(error) {
@@ -5515,8 +6639,8 @@ app.run(function(){/*some code here*/})
       var hideSheet = $ionicActionSheet.show({
          buttons: [
             { text: 'View Information' },
-            { text: 'Delete Account' },
             { text: 'Activate Account' },
+            { text: 'Delete Account' },
           ],
           cancelText: 'Cancel',
           cancel: function() {
@@ -5529,11 +6653,11 @@ app.run(function(){/*some code here*/})
             }
             else if(index == 1)
             {
-              $scope.deleteAccount(id);
+              $scope.activeAccount(id);
             }
             else if(index == 2)
             {
-              $scope.activeAccount(id);
+              $scope.deleteAccount(id);
             }
             return true;
           }
@@ -5544,6 +6668,7 @@ app.run(function(){/*some code here*/})
   /* view */
     $scope.viewAcc = function(id)
     {
+      $ionicScrollDelegate.$getByHandle('mainScroll').scrollTop();
       var tmp1 = 0;
       var tmp2 = 0;
       var tmp3 = 0;
@@ -5552,10 +6677,19 @@ app.run(function(){/*some code here*/})
       var tmp_tot = 0;
 
       $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="margin-left:40%;height: 40px;margin-top: 2px;"/>';
-      $ionicLoading.show({
-        template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-      });
-
+      
+      if(isAndroid)
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+        });
+      }
+      else
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+        });
+      }
       $scope.rating = {};
       $scope.rate = {};
       $scope.rating.max = 5;
@@ -5569,8 +6703,26 @@ app.run(function(){/*some code here*/})
       obj.params = {};
       Auth.REQUEST(obj).then(function(success) {
                               $scope.userInfo = success.data[0];
+                              var location = [parseFloat(success.data[0].latitude),parseFloat(success.data[0].longitude)];
+                              $scope.location = location;
                               $scope.view_businesss.show();
-                              $ionicLoading.hide();
+                              
+                              var obj    = new Object();
+                              obj.method = 'POST';
+                              obj.url    = $rootScope.baseURL + "?func=getServices";
+                              obj.data   = new FormData();
+                              obj.data.append('provider_id',id);
+                              obj.data.append('loginSecret','0ff9346b4edc8dc033bff30762bc3c15d465d3f');
+                              obj.params = {};
+                              Auth.REQUEST(obj).then(function(success) {
+                                                        $scope.services = success.data[0];
+                                                        $ionicLoading.hide();
+                                                    },
+                                                    function(error) {
+                                                        $ionicLoading.hide();
+                                                        $rootScope.showToast('Failed !');
+                                                      }
+                                                    );
                               // var obj    = new Object();
                               // obj.method = 'POST';
                               // obj.url    = $rootScope.baseURL + "?func=getProviderReview";
@@ -5665,9 +6817,19 @@ app.run(function(){/*some code here*/})
 
       confirmPopup.then(function(res) {
         if(res) {
-          $ionicLoading.show({
-            template: 'Deleting <br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-          });
+          
+          if(isAndroid)
+          {
+            $ionicLoading.show({
+              template: 'Deleting <br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+            });
+          }
+          else
+          {
+            $ionicLoading.show({
+              template: 'Deleting <br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+            });
+          }
           var obj    = new Object();
           obj.method = 'POST';
           obj.url    = $rootScope.baseURL + '?func=deleteBusiness';
@@ -5712,9 +6874,19 @@ app.run(function(){/*some code here*/})
 
       confirmPopup.then(function(res) {
         if(res) {
-          $ionicLoading.show({
-            template: 'Activating <br><ion-spinner class="spinner-calm" icon="lines"></ion-spinner>'
-          });
+          
+          if(isAndroid)
+          {
+            $ionicLoading.show({
+              template: 'Activating <br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+            });
+          }
+          else
+          {
+            $ionicLoading.show({
+              template: 'Activating <br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+            });
+          }
           var obj    = new Object();
           obj.method = 'POST';
           obj.url    = $rootScope.baseURL + '?func=activeBusiness';
@@ -5749,8 +6921,602 @@ app.run(function(){/*some code here*/})
     }
   /* /. */
 
+   /* search */
+    $scope.search = function()
+    {
+      $scope.is_go_search = !$scope.is_go_search;
+      $scope.data.query   = '';
+    }
+    $scope.clear = function()
+    {
+      $('.input').val('');
+      $scope.data.query = '';
+      var obj    = new Object();
+      obj.method = 'POST';
+      obj.url    = $rootScope.baseURL + "?func=getAllInactiveBusinessAccountsByName";
+      obj.data   = new FormData();
+      obj.data.append('company_name',$scope.data.query);
+      obj.data.append('loginSecret','0ff9346b4edc8dc033bff30762bc3c15d465d3f');
+      obj.params = {};
+      Auth.REQUEST(obj).then(function(success) { 
+                              $scope.countBusInAccount = success.data.length;
+                              $scope.inactiveAccount = success.data;
+                              $scope.$broadcast('scroll.refreshComplete');
+                              $ionicLoading.hide();
+                            },
+                            function(error) {
+                                console.log(error);
+                                $ionicLoading.hide();
+                                $rootScope.showToast('Failed !');
+                              }
+                            );
+    } 
+    $scope.searchAccount = function()
+    {
+      var obj    = new Object();
+      obj.method = 'POST';
+      obj.url    = $rootScope.baseURL + "?func=getAllInactiveBusinessAccountsByName";
+      obj.data   = new FormData();
+      obj.data.append('company_name',$scope.data.query);
+      obj.data.append('loginSecret','0ff9346b4edc8dc033bff30762bc3c15d465d3f');
+      obj.params = {};
+      Auth.REQUEST(obj).then(function(success) { 
+                              $scope.countBusInAccount = success.data.length;
+                              $scope.inactiveAccount = success.data;
+                              $scope.$broadcast('scroll.refreshComplete');
+                              $ionicLoading.hide();
+                            },
+                            function(error) {
+                                console.log(error);
+                                $ionicLoading.hide();
+                                $rootScope.showToast('Failed !');
+                              }
+                            );
+    }
+  /* /. */
+
+  /* View Map */
+    $scope.viewMap = function(location)
+    {
+      $rootScope.latLong = location;
+      $scope.view_businesss.hide();
+      window.location.href = "#/menu/viewMap3";
+    }
+  /* /. */
+
+  /* check NaN */
+    $scope.checkNan = function(num)
+    {
+      if(isNaN(num))
+      {
+        var n = parseFloat(0);
+        return n.toFixed(2);
+      }
+      else
+      {
+        var n = parseFloat(num);
+        return n.toFixed(2);
+      }
+    }
+  /* /. */
+
   /* initialization */
     $rootScope.initializeInactiveAccount();
+  /* /. */
+
+  /* back button of device not allowed */
+    $ionicPlatform.registerBackButtonAction(function ()
+    {
+      $rootScope.showToast("Only the App's back button is allowed.");
+    }, 100);
+  /* /. */
+}])
+
+.controller('viewMap2Ctrl',['$scope','$rootScope','$ionicPlatform','$ionicHistory','$ionicLoading','Auth', '$compile',
+                function($scope,  $rootScope,  $ionicPlatform,  $ionicHistory,  $ionicLoading,  Auth, $compile) 
+{
+  
+  $rootScope.backButtonPressedOnceToExit = false; 
+  var latitude = $rootScope.latLong[0];
+  var longitude = $rootScope.latLong[1];
+  var isIOS = ionic.Platform.isIOS();
+  var isAndroid = ionic.Platform.isAndroid();
+
+  /* map */
+    function initialize() {
+      var center = {lat: latitude, lng: longitude};
+      var mapProp = {
+        center:center,
+        zoom:15,
+        mapTypeId:google.maps.MapTypeId.ROADMAP
+      };
+      console.log(center);
+      var map  = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+      var marker = new google.maps.Marker({
+        position: center,
+        map: map,
+        title: 'Hello World!'
+      });
+
+    }
+
+    $ionicPlatform.ready(initialize);
+  /* /. */
+
+  /* close */
+    $scope.close = function()
+    {
+      $rootScope.modalView = true;
+      window.location.href="#/menu/listBusinessAccount"
+    }
+  /* /. */
+
+  /* back button of device not allowed */
+    $ionicPlatform.registerBackButtonAction(function ()
+    {
+      $rootScope.showToast("Only the App's back button is allowed.");
+    }, 100);
+  /* /. */
+}])
+
+.controller('viewMap3Ctrl',['$scope','$rootScope','$ionicPlatform','$ionicHistory','$ionicLoading','Auth', '$compile',
+                function($scope,  $rootScope,  $ionicPlatform,  $ionicHistory,  $ionicLoading,  Auth, $compile) 
+{
+  
+  $rootScope.backButtonPressedOnceToExit = false; 
+  var latitude = $rootScope.latLong[0];
+  var longitude = $rootScope.latLong[1];
+  var isIOS = ionic.Platform.isIOS();
+  var isAndroid = ionic.Platform.isAndroid();
+
+  /* map */
+    function initialize() {
+      var center = {lat: latitude, lng: longitude};
+      var mapProp = {
+        center:center,
+        zoom:15,
+        mapTypeId:google.maps.MapTypeId.ROADMAP
+      };
+      console.log(center);
+      var map  = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+      var marker = new google.maps.Marker({
+        position: center,
+        map: map,
+        title: 'Hello World!'
+      });
+
+    }
+
+    $ionicPlatform.ready(initialize);
+  /* /. */
+
+  /* close */
+    $scope.close = function()
+    {
+      $rootScope.modalView = true;
+      window.location.href="#/menu/listInactiveAccount"
+    }
+  /* /. */
+
+  /* back button of device not allowed */
+    $ionicPlatform.registerBackButtonAction(function ()
+    {
+      $rootScope.showToast("Only the App's back button is allowed.");
+    }, 100);
+  /* /. */
+}])
+
+.controller('providersCtrl',['$scope','$rootScope','$ionicPlatform','$ionicHistory','$ionicLoading','Auth', '$compile', '$interval', '$ionicActionSheet', '$ionicModal', '$ionicPopup', '$ionicScrollDelegate', '$cordovaGeolocation',
+                function($scope,  $rootScope,  $ionicPlatform,  $ionicHistory,  $ionicLoading,  Auth, $compile, $interval, $ionicActionSheet, $ionicModal, $ionicPopup, $ionicScrollDelegate, $cordovaGeolocation) 
+{
+  
+  $rootScope.backButtonPressedOnceToExit = false;
+  var clicked = false; 
+  var isIOS = ionic.Platform.isIOS();
+  var isAndroid = ionic.Platform.isAndroid();
+  $scope.is_go_search = false;
+  $scope.data = {};
+  $scope.data.query = '';
+
+  /* initialize main */
+    $rootScope.initializeProvider = function()
+    {
+      if(isAndroid)
+      {
+        $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="margin-left:25%;height: 40px;margin-top: 2px;"/>';
+      }
+      else
+      {
+        $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="height: 40px;margin-top: 2px;"/>';
+      }
+      
+      if(isAndroid)
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+        });
+      }
+      else
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+        });
+      }
+      var obj    = new Object();
+      obj.method = 'POST';
+      obj.url    = $rootScope.baseURL + "?func=getAllBusinessAccounts";
+      obj.data   = new FormData();
+      obj.data.append('loginSecret','0ff9346b4edc8dc033bff30762bc3c15d465d3f');
+      obj.params = {};
+      Auth.REQUEST(obj).then(function(success) { 
+                              $scope.countBusAccount = success.data.length;
+                              $scope.businessAccount = success.data;
+                              $scope.$broadcast('scroll.refreshComplete');
+                              $ionicLoading.hide();
+                            },
+                            function(error) {
+                                console.log(error);
+                                $ionicLoading.hide();
+                                $rootScope.showToast('Failed !');
+                              }
+                            );
+    }
+  /* /. */
+
+  /* view */
+    $scope.viewAcc = function(id)
+    {
+      $ionicScrollDelegate.$getByHandle('mainScroll').scrollTop();
+      var tmp1 = 0;
+      var tmp2 = 0;
+      var tmp3 = 0;
+      var tmp4 = 0;
+      var tmp5 = 0;
+      var tmp_tot = 0;
+
+      $scope.navTitle='<img class="title-image" src="img/header_logo.png" style="margin-left:40%;height: 40px;margin-top: 2px;"/>';
+      
+      if(isAndroid)
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+        });
+      }
+      else
+      {
+        $ionicLoading.show({
+          template: 'Fetching data<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+        });
+      }
+      $scope.rating = {};
+      $scope.rate = {};
+      $scope.rating.max = 5;
+
+      var obj    = new Object();
+      obj.method = 'POST';
+      obj.url    = $rootScope.baseURL + "?func=getBusinessAccount";
+      obj.data   = new FormData();
+      obj.data.append('provider_id',id);
+      obj.data.append('loginSecret','0ff9346b4edc8dc033bff30762bc3c15d465d3f');
+      obj.params = {};
+      Auth.REQUEST(obj).then(function(success) {
+                              $scope.userInfo = success.data[0];
+                              var location = [parseFloat(success.data[0].latitude),parseFloat(success.data[0].longitude)];
+                              $scope.location = location;
+                              $scope.view_businesss.show();
+
+                              var obj    = new Object();
+                              obj.method = 'POST';
+                              obj.url    = $rootScope.baseURL + "?func=getServices";
+                              obj.data   = new FormData();
+                              obj.data.append('provider_id',id);
+                              obj.data.append('loginSecret','0ff9346b4edc8dc033bff30762bc3c15d465d3f');
+                              obj.params = {};
+                              Auth.REQUEST(obj).then(function(success) {
+                                console.log(success.data[0]);
+                                                        $scope.services = success.data[0];
+                                                        $ionicLoading.hide();
+                                                    },
+                                                    function(error) {
+                                                        $ionicLoading.hide();
+                                                        $rootScope.showToast('Failed !');
+                                                      }
+                                                    );
+                              // var obj    = new Object();
+                              // obj.method = 'POST';
+                              // obj.url    = $rootScope.baseURL + "?func=getProviderReview";
+                              // obj.data   = new FormData();
+                              // obj.data.append('provider_id',isLogged.provider_id);
+                              // obj.data.append('loginSecret','0ff9346b4edc8dc033bff30762bc3c15d465d3f');
+                              // obj.params = {};
+                              // Auth.REQUEST(obj).then(function(success) {
+                              //                         if (success.data != 0)
+                              //                         {
+                              //                           $scope.view_ratings = true;
+                              //                           for(var i = 0 ; i < success.data.length ; i++)
+                              //                           {
+                              //                             tmp_tot += parseInt(success.data[i].star_rating);
+                              //                             if(success.data[i].star_rating == 1)
+                              //                             {
+                              //                               tmp1 += parseInt(success.data[i].star_rating);
+                              //                             }
+                              //                             else if(success.data[i].star_rating == 2)
+                              //                             {
+                              //                               tmp2 += parseInt(success.data[i].star_rating);
+                              //                             }
+                              //                             else if(success.data[i].star_rating == 3)
+                              //                             {
+                              //                               tmp3 += parseInt(success.data[i].star_rating);
+                              //                             }
+                              //                             else if(success.data[i].star_rating == 4)
+                              //                             {
+                              //                               tmp4 += parseInt(success.data[i].star_rating);
+                              //                             }
+                              //                             else if(success.data[i].star_rating == 5)
+                              //                             {
+                              //                               tmp5 += parseInt(success.data[i].star_rating);
+                              //                             }
+                              //                           }
+                                                        
+                              //                           var avg_ = (tmp1*1) + (tmp2*2) + (tmp3*3) + (tmp4*4) + (tmp5*5);
+                              //                           $scope.avg = parseInt(avg_) / parseInt(tmp_tot);
+                              //                           $scope.tot = tmp_tot;
+                              //                           $scope.rating.rate = $scope.avg;
+                              //                           $scope.rate.one =  (parseInt(tmp1) / parseInt(tmp_tot)) * 100;
+                              //                           $scope.rate.two =  (parseInt(tmp2) / parseInt(tmp_tot)) * 100;
+                              //                           $scope.rate.three =  (parseInt(tmp3) / parseInt(tmp_tot)) * 100;
+                              //                           $scope.rate.four =  (parseInt(tmp4) / parseInt(tmp_tot)) * 100;
+                              //                           $scope.rate.five =  (parseInt(tmp5) / parseInt(tmp_tot)) * 100;
+                              //                           $ionicLoading.hide();
+                              //                         }
+                              //                         else
+                              //                         {
+
+                              //                           $scope.view_ratings = false;
+                              //                           $ionicLoading.hide();
+                              //                         }
+                              //                       },
+                              //                       function(error) {
+                              //                           console.log(error);
+                              //                           $ionicLoading.hide();
+                              //                           $rootScope.showToast('Failed !');
+                              //                         }
+                              //                       );
+                            },
+                            function(error) {
+                                console.log(error);
+                                $ionicLoading.hide();
+                                $rootScope.showToast('Failed !');
+                              }
+                            );
+    }
+    // -------------- Modal ---------------
+      $ionicModal.fromTemplateUrl('viewBusinessInfo.html', {
+        scope: $scope,
+        animation: 'slide-in-up',
+        hardwareBackButtonClose: false
+      }).then(function(modal) {
+        $scope.view_businesss = modal;
+      });
+    // -------------- End Modal ---------------
+
+    /* Close Modal */
+      $scope.closeBusinesssModal = function() {
+        $scope.view_businesss.hide();
+      };
+  /* /. */
+
+  /* search */
+    $scope.search = function()
+    {
+      clicked = true;
+      // Show the action sheet
+      var hideSheet = $ionicActionSheet.show({
+         buttons: [
+            { text: 'Search by Company name' },
+            { text: 'Search by nearest provider' },
+          ],
+          cancelText: 'Cancel',
+          cancel: function() {
+              clicked = false;
+            },
+          buttonClicked: function(index) {
+            if(index == 0)
+            {
+              var obj    = new Object();
+              obj.method = 'POST';
+              obj.url    = $rootScope.baseURL + "?func=getAllBusinessAccountsByName";
+              obj.data   = new FormData();
+              obj.data.append('company_name',$scope.data.query);
+              obj.data.append('loginSecret','0ff9346b4edc8dc033bff30762bc3c15d465d3f');
+              obj.params = {};
+              Auth.REQUEST(obj).then(function(success) { 
+                                      $scope.countBusAccount = success.data.length;
+                                      $scope.businessAccount = success.data;
+                                      $scope.$broadcast('scroll.refreshComplete');
+                                      $ionicLoading.hide();
+                                    },
+                                    function(error) {
+                                        console.log(error);
+                                        $ionicLoading.hide();
+                                        $rootScope.showToast('Failed !');
+                                      }
+                                    );
+              $scope.is_go_search = !$scope.is_go_search;
+              $scope.data.query   = '';
+            }
+            else if(index == 1)
+            {
+              $scope.is_go_search = false;
+              if(isAndroid)
+              {
+                $ionicLoading.show({
+                  template: 'Fetching ...<br><ion-spinner class="spinner-calm" icon="android"></ion-spinner>'
+                });
+              }
+              else
+              {
+                $ionicLoading.show({
+                  template: 'Fetching ...<br><ion-spinner class="spinner-calm" icon="ios"></ion-spinner>'
+                });
+              }
+              var posOptions = {timeout: 10000, enableHighAccuracy: false};
+              $cordovaGeolocation
+                .getCurrentPosition(posOptions)
+                .then(function (position) {
+                  var lat  = position.coords.latitude;
+                  var long = position.coords.longitude;
+                  console.log(lat+','+long);
+                  var obj    = new Object();
+                  obj.method = 'POST';
+                  obj.url    = $rootScope.baseURL + "?func=getNearProvider";
+                  obj.data   = new FormData();
+                  obj.data.append('lat',lat);
+                  obj.data.append('long',long);
+                  obj.data.append('loginSecret','0ff9346b4edc8dc033bff30762bc3c15d465d3f');
+                  obj.params = {};
+
+                  Auth.REQUEST(obj).then(function(success) {
+                                              $scope.countBusAccount = success.data.length;
+                                              $scope.businessAccount = success.data[0];
+                                              $scope.$broadcast('scroll.refreshComplete');
+                                              $scope.data.query   = '';
+                                              $ionicLoading.hide();
+                                          }, function(err) {
+                                            // error
+                                          });
+                }, function(err) {
+                  $ionicLoading.hide();
+                  $rootScope.showToast("Check your GPS and try again !");
+                });
+            }
+            return true;
+          }
+       });
+      
+    }
+    $scope.clear = function()
+    {
+      $scope.data.query = '';
+      var obj    = new Object();
+      obj.method = 'POST';
+      obj.url    = $rootScope.baseURL + "?func=getAllBusinessAccountsByName";
+      obj.data   = new FormData();
+      obj.data.append('company_name',$scope.data.query);
+      obj.data.append('loginSecret','0ff9346b4edc8dc033bff30762bc3c15d465d3f');
+      obj.params = {};
+      Auth.REQUEST(obj).then(function(success) { 
+                              $scope.countBusAccount = success.data.length;
+                              $scope.businessAccount = success.data;
+                              $scope.$broadcast('scroll.refreshComplete');
+                              $scope.is_go_search = false;
+                              $ionicLoading.hide();
+                            },
+                            function(error) {
+                                console.log(error);
+                                $ionicLoading.hide();
+                                $rootScope.showToast('Failed !');
+                              }
+                            );
+    } 
+    $scope.searchAccount = function()
+    {
+      var obj    = new Object();
+      obj.method = 'POST';
+      obj.url    = $rootScope.baseURL + "?func=getAllBusinessAccountsByName";
+      obj.data   = new FormData();
+      obj.data.append('company_name',$scope.data.query);
+      obj.data.append('loginSecret','0ff9346b4edc8dc033bff30762bc3c15d465d3f');
+      obj.params = {};
+      Auth.REQUEST(obj).then(function(success) { 
+                              $scope.countBusAccount = success.data.length;
+                              $scope.businessAccount = success.data;
+                              $scope.$broadcast('scroll.refreshComplete');
+                              $ionicLoading.hide();
+                            },
+                            function(error) {
+                                console.log(error);
+                                $ionicLoading.hide();
+                                $rootScope.showToast('Failed !');
+                              }
+                            );
+    }
+  /* /. */
+
+  /* View Map */
+    $scope.viewMap = function(location)
+    {
+      $rootScope.latLong = location;
+      $scope.view_businesss.hide();
+      window.location.href = "#/menu/viewMap4";
+    }
+  /* /. */
+
+  /* check NaN */
+    $scope.checkNan = function(num)
+    {
+      if(isNaN(num))
+      {
+        var n = parseFloat(0);
+        return n.toFixed(2);
+      }
+      else
+      {
+        var n = parseFloat(num);
+        return n.toFixed(2);
+      }
+    }
+  /* /. */
+
+  /* initialization */
+    $rootScope.initializeProvider();
+  /* /. */
+
+  /* back button of device not allowed */
+    $ionicPlatform.registerBackButtonAction(function ()
+    {
+      $rootScope.showToast("Only the App's back button is allowed.");
+    }, 100);
+  /* /. */
+}])
+
+.controller('viewMap4Ctrl',['$scope','$rootScope','$ionicPlatform','$ionicHistory','$ionicLoading','Auth', '$compile',
+                function($scope,  $rootScope,  $ionicPlatform,  $ionicHistory,  $ionicLoading,  Auth, $compile) 
+{
+  
+  $rootScope.backButtonPressedOnceToExit = false; 
+  var latitude = $rootScope.latLong[0];
+  var longitude = $rootScope.latLong[1];
+  var isIOS = ionic.Platform.isIOS();
+  var isAndroid = ionic.Platform.isAndroid();
+
+  /* map */
+    function initialize() {
+      var center = {lat: latitude, lng: longitude};
+      var mapProp = {
+        center:center,
+        zoom:15,
+        mapTypeId:google.maps.MapTypeId.ROADMAP
+      };
+      console.log(center);
+      var map  = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+      var marker = new google.maps.Marker({
+        position: center,
+        map: map,
+        title: 'Hello World!'
+      });
+
+    }
+
+    $ionicPlatform.ready(initialize);
+  /* /. */
+
+  /* close */
+    $scope.close = function()
+    {
+      $rootScope.modalView = true;
+      window.location.href="#/menu/providers"
+    }
   /* /. */
 
   /* back button of device not allowed */

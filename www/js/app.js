@@ -234,6 +234,46 @@ angular.module('proweaver', ['ionic','ionic.service.core', 'proweaver.controller
         controller: 'listInactiveAccountCtrl'
       }
     }
+  })
+
+  .state('menu.viewMap2', {
+    url: '/viewMap2',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/viewMap2.html',
+        controller: 'viewMap2Ctrl'
+      }
+    }
+  })
+
+  .state('menu.viewMap3', {
+    url: '/viewMap3',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/viewMap3.html',
+        controller: 'viewMap3Ctrl'
+      }
+    }
+  })
+
+  .state('menu.providers', {
+    url: '/providers',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/providers.html',
+        controller: 'providersCtrl'
+      }
+    }
+  })
+
+  .state('menu.viewMap4', {
+    url: '/viewMap4',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/viewMap4.html',
+        controller: 'viewMap4Ctrl'
+      }
+    }
   });
 
   // .state('playlists', {

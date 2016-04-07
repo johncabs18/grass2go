@@ -1,5 +1,9 @@
 <ion-view cache-view="false" view-title="{{ navTitle }}" hide-back-button="true" >
   	<ion-content class="calendar" has-bouncing="true">
+      	<ion-refresher
+        	pulling-text="Pull to refresh..."
+        	on-refresh="initializeDashboard()">
+      	</ion-refresher>
   		<center>
 			<p style="font-size:20px;color:#2bb873;margin:0 0 0 ;margin-top:5%;">Grass2Go Dashboard</p>
 			<p style="color:#606468;margin:0 0 0 !important">{{ datetime }}</p>

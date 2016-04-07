@@ -3,6 +3,10 @@
         <i class="icon ion-ios-plus-outline" style="font-size:34px !important;margin-right:4px;" ng-click="add_agent();"></i>
     </ion-nav-buttons>
   	<ion-content has-bouncing="true" style="background:#e6ffe0;">
+	  	<ion-refresher
+		    pulling-text="Pull to refresh..."
+		    on-refresh="initializeAgents()">
+		</ion-refresher>
 	    <center>
 	        <p style="font-size:25px;margin-top:5%;color:#606468;">Lists of Agents</p>
 	    </center><br>
@@ -24,13 +28,13 @@
 
 <script id="addAgent.html" type="text/ng-template">
   <ion-modal-view>
-    <div class="bar bar-header" style="background:#e6ffe0;">
-      <h1 class="title"></h1>
-      <button class="button button-icon ion-ios-close-empty" ng-click="closeAddModal();"></button>
-    </div>
+    <ion-header-bar style="background:#e6ffe0;">
+      	<h1 class="title"></h1>
+      	<button class="button button-icon ion-ios-close-empty" ng-click="closeAddModal();"></button>
+    </ion-header-bar>
     <ion-content has-bouncing="true" style="background:#e6ffe0;">
 	    <center>
-	        <p style="font-size:25px;margin-top:15%;color:#606468;">Create Agent</p>
+	        <p style="font-size:25px;color:#606468;">Create Agent</p>
 	    </center><br>
       	<form novalidate="novalidate" ng-submit="create_agent(data)" name="data" enctype="multipart/form-data">
 		    <div class="list" style="margin:10px;">
@@ -70,13 +74,13 @@
 
 <script id="editAgntModal.html" type="text/ng-template">
   <ion-modal-view>
-    <div class="bar bar-header" style="background:#e6ffe0;">
-      <h1 class="title"></h1>
-      <button class="button button-icon ion-ios-close-empty" ng-click="closeEditModal();"></button>
-    </div>
-    <ion-content has-bouncing="true" style="background:#e6ffe0;">
+    <ion-header-bar style="background:#e6ffe0;">
+      	<h1 class="title"></h1>
+      	<button class="button button-icon ion-ios-close-empty" ng-click="closeEditModal();"></button>
+    </ion-header-bar>
+    <ion-content has-bouncing="true" style="background:#e6ffe0;" delegate-handle="mainScroll">
 	    <center>
-	        <p style="font-size:25px;margin-top:15%;color:#606468;">Edit agent info</p>
+	        <p style="font-size:25px;color:#606468;">Edit agent info</p>
 	    </center><br>
       	<form novalidate="novalidate" ng-submit="update_agent(data)" name="data" enctype="multipart/form-data">
 		    <div class="list" style="margin:10px;">

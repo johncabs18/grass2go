@@ -5,8 +5,12 @@
     </ion-nav-back-button>
   </ion-nav-bar>
   <ion-content class="modalLogin" has-bouncing="true">
+    <br>
+    <center>
+      <p style="font-size:30px;color:#606468;">Property Information</p>
+    </center><br>
     <form novalidate="novalidate" ng-submit="registerUser(data)" name="data">
-      <div class="list list-inset" style="margin:10px;margin-top:20%">
+      <div class="list list-inset" style="margin:10px;">
         <label class="item item-input">
           <input type="email" placeholder="Email" ng-model="profile.email"  required>
           <i class="icon ion-alert-circled assertive error"></i>

@@ -22,13 +22,13 @@
 
 <script id="loginForm.html" type="text/ng-template">
   <ion-modal-view>
-    <div class="bar bar-header" style="background:#e6ffe0;">
+    <ion-header-bar style="background:#e6ffe0;">
       <h1 class="title"></h1>
       <button class="button button-icon ion-ios-close-empty" ng-click="closeModal();"></button>
-    </div>
+    </ion-header-bar>
     <ion-content class="modalLogin" has-bouncing="true">
       <center>
-        <p style="font-size:25px;margin-top:15%;color:#606468;">Welcome Back</p>
+        <p style="font-size:25px;margin-top:5%;color:#606468;">Welcome Back</p>
         <p style="font-size:18px;color:#2bb873;">Login to your account to start</p>
       </center><br>
       <form novalidate="novalidate" ng-submit="login(loginCredentials)" name="loginCredentials">

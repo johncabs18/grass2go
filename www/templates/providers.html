@@ -5,10 +5,10 @@
   	<ion-content has-bouncing="true" style="background:#e6ffe0;">
       	<ion-refresher
         	pulling-text="Pull to refresh..."
-        	on-refresh="initializeInactiveAccount()">
+        	on-refresh="initializeProvider()">
       	</ion-refresher>
   		<center>
-	        <p style="font-size:20px;margin-top:5%;color:#606468;">Lists of Inactive Business Account(s)</p>
+	        <p style="font-size:20px;margin-top:5%;color:#606468;">Lists of Service Providers</p>
 	    </center>
       	<div class="list list-inset"  ng-if="is_go_search">
 	        <div class="item item-input">
@@ -17,16 +17,16 @@
 	          <i class="icon ion-ios-close-outline l_search_x " ng-click="clear()" ng-if="data.query.length >= 1" ></i>
 	        </div>
       	</div>
-	    <div class="list" ng-show="inactiveAccount != 0" style="margin-top:10px">
-		    <a class="item item-avatar" ng-repeat="list in inactiveAccount track by $index" style="margin-left:10px;margin-right:10px;" ng-click="actionInactive(list.provider_id)">
+	    <div class="list" ng-show="businessAccount != 0" style="margin-top:10px">
+		    <a class="item item-avatar" ng-repeat="list in businessAccount track by $index" style="margin-left:10px;margin-right:10px;" ng-click="viewAcc(list.provider_id)">
 		      <img src="img/profile.png">
 		      <h2><b style="color:#2bb873;">{{ list.company_name }}</b></h2>
 		      <p>{{ list.email }}</p>
 		    </a>
 		</div>
-		<div class="card" ng-show="inactiveAccount == 0"style="margin-top:10px">
+		<div class="card" ng-show="businessAccount == 0"style="margin-top:10px">
 		    <div class="item item-text-wrap">
-		      No inactive business account(s) found.
+		      No provider found.
 		    </div>
 		</div>
   	</ion-content>
@@ -34,10 +34,8 @@
 
 <script id="viewBusinessInfo.html" type="text/ng-template">
   <ion-modal-view>
-    <div class="bar bar-header" style="background:#2bb873;">
-    </div>
     <ion-header-bar style="background:#2bb873;">
-      <h1 class="title" style="color:white">Business Account Information</h1>
+      <h1 class="title" style="color:white">Provider Information</h1>
       <button class="button button-icon ion-ios-close-outline" style="color:white" ng-click="closeBusinesssModal();"></button>
     </ion-header-bar>
     <ion-content class="modalLogin appoint" has-bouncing="true" delegate-handle="mainScroll">
@@ -46,7 +44,7 @@
 
 		  	<div class="item item-avatar">
 		    	<img src="img/profile.png">
-		    	<h2><b>{{ userInfo.company_name }}</b></h2>
+		    	<h2><b style="color:#2bb873;">{{ userInfo.company_name }}</b></h2>
 		    	<p>{{ userInfo.email }}</p>
 		  	</div>
 
@@ -56,7 +54,7 @@
 		    		Longitude: <b>{{ userInfo.longitude }}</b><br>
 		    		Phone: <b>{{ userInfo.phone }}</b>
 		    	</p><hr>
-		    	
+
 		    	<p>Services: </p>
 		    	<div ng-if="services != 0">
 		    		<p><span ng-repeat="serv in services">&nbsp;&nbsp;&nbsp;<i class="ion ion-arrow-right-c"></i> &nbsp;{{ serv.service_name }} : <b> ${{ checkNan(serv.service_cost) }} </b><br></span></p>

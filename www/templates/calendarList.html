@@ -4,6 +4,10 @@
         <i ng-show="valid" class="icon ion-ios-plus-outline" style="font-size:34px !important;margin-right:4px;" ng-click="add_appointment(date);"></i>
     </ion-nav-buttons>
   	<ion-content has-bouncing="true" class="calendar">
+      <ion-refresher
+        pulling-text="Pull to refresh..."
+        on-refresh="initializeList()">
+      </ion-refresher>
       <div class="card" ng-repeat="event in events track by $index" ng-if="events != 0">
         <center>
           <p class="app_sched">Appointment Scheduled</p>
@@ -48,7 +52,7 @@
             <div class="col-50 info">
               <p style="margin:0 0 0px;font-size:18px">{{  agent_info[$index].agent_fname }} {{ agent_info[$index].agent_lname }}</p>
               <p style="margin:0 0 0px;font-size:12px;color:#2bb873; font-style: italic;">Service Agent</p>
-              <p style="margin:0 0 0px;font-size:18px">{{ company[$index].company_name }}</p>
+              <p style="margin:0 0 0px;font-size:18px"><a ng-click="viewAcc(company[$index].provider_id)" style="color:#0E9BFF;text-decoration: underline;"><b>{{ company[$index].company_name }}</b></a></p>
               <p style="margin:0 0 0px;font-size:12px;color:#2bb873; font-style: italic;">Company Name</p>
               <p style="margin:0 0 0px;font-size:18px">{{ company[$index].certification_number }}</p>
               <p style="margin:0 0 0px;font-size:12px;color:#2bb873; font-style: italic;">Certification Number</p>
@@ -138,13 +142,13 @@
 
 <script id="addEvent.html" type="text/ng-template">
   <ion-modal-view>
-    <div class="bar bar-header" style="background:#2bb873;">
+    <ion-header-bar style="background:#2bb873;">
       <h1 class="title" style="color:white">Set an Appointment</h1>
       <button class="button button-icon ion-ios-close-outline" style="color:white" ng-click="closeAddEventModal();"></button>
-    </div>
-    <ion-content class="modalLogin appoint" has-bouncing="true">
+    </ion-header-bar>
+    <ion-content class="modalLogin appoint" has-bouncing="true" delegate-handle="mainScroll">
       <form novalidate="novalidate" ng-submit="next(data)" name="data">
-        <div class="list" style="margin:10px;margin-top:20%;">
+        <div class="list" style="margin:10px;">
           <label class="item item-input">
             <div class="input-label">
              Full name <span style="color:red">*</span>
@@ -297,9 +301,13 @@
             </ionic-timepicker>
           </label>
         </div>
-        <button class="button button-block button-balanced" style="margin:10px;">
-          Find a Provider within your area
-        </button>
+        <div class="row">
+            <div class="col">
+              <button class="button button-block button-balanced">
+                Find a Provider within your area
+              </button>
+            </div>
+        </div>
       </form>
     </ion-content>
   </ion-modal-view>
@@ -307,14 +315,15 @@
 
 <script id="viewInvoiceInfo.html" type="text/ng-template">
   <ion-modal-view>
-    <div class="bar bar-header" style="background:#2bb873;">
+    <ion-header-bar style="background:#2bb873;">
       <h1 class="title" style="color:white">Invoice Information</h1>
       <button class="button button-icon ion-ios-close-outline" style="color:white" ng-click="closeInvoiceModal();"></button>
-    </div>
-    <ion-content class="modalLogin appoint" has-bouncing="true">
+    </ion-header-bar>
+    <ion-content class="modalLogin appoint" has-bouncing="true" delegate-handle="mainScroll">
+      <br>
       <div ng-repeat="inv in invoice track by $index"  >
         <center>
-          <p style="font-size:20px;color:#2bb873;margin-top:18%;">Invoice for <br>Lawn Service No:</p>
+          <p style="font-size:20px;color:#2bb873;">Invoice for <br>Lawn Service No:</p>
         </center>
         <center><p style="font-size:20px;color:#606468;"><b>{{ inv.appoint_id }}</b></p></center>
         <div class="card">
@@ -355,6 +364,92 @@
           </div>
         </div>
       </div>
+    </ion-content>
+  </ion-modal-view>
+</script>
+
+<script id="viewBusinessInfo.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-header-bar style="background:#2bb873;">
+      <h1 class="title" style="color:white">Provider Information</h1>
+      <button class="button button-icon ion-ios-close-outline" style="color:white" ng-click="closeBusinesssModal();"></button>
+    </ion-header-bar>
+    <ion-content class="modalLogin appoint" has-bouncing="true" delegate-handle="mainScroll">
+      <br>
+      <div class="list card" >
+
+        <div class="item item-avatar">
+          <img src="img/profile.png">
+          <h2><b style="color:#2bb873;">{{ userInfo.company_name }}</b></h2>
+          <p>{{ userInfo.email }}</p>
+        </div>
+
+        <div class="item item-body">
+          <p> Certification Number: <b>{{ userInfo.certification_number }}</b><br>
+            Latitude: <b>{{ userInfo.latitude }}</b><br>
+            Longitude: <b>{{ userInfo.longitude }}</b><br>
+            Phone: <b>{{ userInfo.phone }}</b>
+          </p><hr>
+
+          <p>Services: </p>
+          <div ng-if="services != 0">
+            <p><span ng-repeat="serv in services">&nbsp;&nbsp;&nbsp;<i class="ion ion-arrow-right-c"></i> &nbsp;{{ serv.service_name }} : <b> ${{ checkNan(serv.service_cost) }} </b><br></span></p>
+          </div>
+          <div ng-if="services == 0"><p>No Services yet !</p></div>
+          <hr>
+          
+          <p> Reviews: </p>
+          <div ng-if="view_ratings">
+            <center><p style="font-size:30px;">
+              <b> {{ avg }}</b>
+              <rating ng-model="rating.rate" max="rating.max"></rating><br>
+            </p></center>
+            <p>
+              <div class="row">
+                <div class="col-30">
+                  <i class="icon ion-android-star" style="color:#9FC05A"></i> 5 :
+                </div>
+                <div class="col">
+                  <div style="height: 16px; width: {{rate.five}}%; transition: width 0.1s; background: #9FC05A;margin-top:-3px;"></div>
+              </div>
+              </div>
+              <div class="row">
+                <div class="col-30">
+                  <i class="icon ion-android-star" style="color:#ADD633"></i> 4 :
+                </div>
+                <div class="col">
+                  <div style="height: 16px; width: {{rate.four}}%; transition: width 0.1s; background: #ADD633;margin-top:-3px;"></div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-30">
+                  <i class="icon ion-android-star" style="color:#FFD834"></i> 3 :
+                </div>
+                <div class="col">
+                  <div style="height: 16px; width: {{rate.three}}%; transition: width 0.1s; background: #FFD834;margin-top:-3px;"></div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-30">
+                  <i class="icon ion-android-star" style="color:#FFB234"></i> 2 :
+                </div>
+                <div class="col">
+                  <div style="height: 16px; width: {{rate.two}}%; transition: width 0.1s; background: #FFB234;margin-top:-3px;"></div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-30">
+                  <i class="icon ion-android-star" style="color:#FF8B5A"></i> 1 :
+                </div>
+                <div class="col">
+                  <div style="height: 16px; width: {{rate.one}}%; transition: width 0.1s; background: #FF8B5A;margin-top:-3px;"></div>
+                </div>
+              </div>
+            </p>
+          </div>
+          <div ng-if="!view_ratings"><p>No Rating(s) yet !</p></div>
+      </div>
+    </div>
     </ion-content>
   </ion-modal-view>
 </script>
